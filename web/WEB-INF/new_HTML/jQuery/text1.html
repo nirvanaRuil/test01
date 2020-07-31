@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>开始jQuery</title>
+    <script src="../../../js/jquery-3.5.1.min.js"></script>
+</head>
+<body>
+<input type="button" value="设置边框" id="btnOne">
+<input type="button" value="设置文本" id="btnTwo">
+<button id="three">关灯</button>
+<button id="four">开灯</button>
+<div></div>
+<div></div>
+<div></div>
+<script>
+    // $(function () {
+    //
+    // }); 入口函数的两种写法,入口函数可以写多个,window.onload不可以;jQuery的入口函数快于window.onload
+    $(document).ready(function () {  //入口函数
+        //设置边框
+        $("#btnOne").click(function () {
+            $("div").css('border', '1px solid black');
+        });
+        $("#btnTwo").click(function () {
+            $("div").text('我是文本');
+        });
+        $("div").width(100).height(100).css("backgroundColor","blue").text("aiyou"); //链式编程
+    });
+
+    $(function () {
+        $('#three').click(function () {
+            $('body').css('backgroundColor','black');
+        });
+        $('#four').click(function () {
+            $('body').css('backgroundColor','pink');
+        });
+    });   //开关灯demo方法一
+
+    $(function () {
+        let btn = document.getElementsByTagName('button');
+        btn[0].onclick = function () {
+            $('body').css('backgroundColor','black');
+        }  //关灯
+        $(btn[1]).onclick(function () {
+            $('body')[1].style.backgroundColor = 'pink';
+        });
+    });
+
+    let div1 = document.getElementById('one');
+    let $div1 = $(div1);  //dom对象转jQuery
+    console.log($div1);
+
+    //jQuery转dom
+    // let  $divs = $('divs');
+    // let div2 = $divs[0];
+    $('divs')[0].style.backgroundColor = 'red';//第一种方法,因为jQuery是个伪数组,所以使用下标取出来
+
+    let $divs;
+    let div3 = $divs.get(1);//第二种方法,使用jQuery方法get()
+</script>
+</body>
+</html>
+<!--$ 的参数传递不同,效果不同:
+1.参数传递为匿名函数----入口函数;
+2.参数传递为字符串----选择器/创建一个标签;
+3.参数传递为dom对象----则会转换为jQuery对象.
+
+jQuery对象是一个伪数组,其实就是dom对象的一个包装集-->
+
+

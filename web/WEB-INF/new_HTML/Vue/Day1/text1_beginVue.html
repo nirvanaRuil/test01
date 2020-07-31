@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>开始学习Vue</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="../../../../Vue/vue.min.js"></script>
+</head>
+<body>
+<!--将来new的Vue实例,会控制这个div元素中的所有内容-->
+<div id="app">
+    <p id="content">{{ msg }}</p>
+<!--    实例所控制的区域就是MVVM中的V部分-->
+<!--    Vue省去了操作dom的操作,直接通过Vue提供的指令,很方便就能把数据渲染到页面上,程序员不再需要手动
+    操作dom元素,前端的Vue等框架不提倡手动操作dom元素-->
+</div>
+<script>
+//当我们导入Vue的包之后,在浏览器内存中,就多了一个Vue构造函数
+let  vm = new  Vue({  //new出来的这个vm对象就是MVVM中的VM调度者
+    el:"#app",//el:element缩写,表示当前我们new的这个Vue实例,要控制页面上的哪个区域
+    data:{  //data属性中存放的是el中要用到的数据,是MVVM中的M部分,用来保存每个页面的数据
+        msg:'欢迎学习Vue' //msg:message信息
+    }
+})
+</script>
+</body>
+</html>

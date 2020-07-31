@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>await制作加载进度条</title>
+</head>
+<body>
+<style>
+    #loading{
+        height: 50px;
+        background-color: #1b6d85;
+        display: flex;
+        justify-content: center;
+        font-size: 30px;
+        color: #fff;
+    }
+</style>
+<div id="loading">0%</div>
+</body>
+<script src="ajax.js"></script>
+<script>
+    //例子 await制作加载进度条
+    //可以当封装
+    function query(name) {
+        return ajax(`http://localhost:8888/php/user.php?name=${name}`);
+    }
+    async function loadUser(users) {
+        for (let i=0;i<users.length;i++){
+            let user = await query(users[i]);
+            let progress = ((i+1)/users.length)*100//进度
+            loading.style.width = progress+ "%";  //进度条
+            loading.innerHTML = Math.round(progress)+ "%"; //由于数据多的话有小数的情况,加上Math.round就没问题.
+            console.log(i);
+        }
+    }
+    loadUser([1,2,3,4,5,6])  //数据
+
+    //如果是不需要封装,立即执行的话
+    function query(name) {
+        return ajax(`http://localhost:8888/php/user.php?name=${name}`);
+    }
+    (async () => {
+        let users = [1,2,3,4,5,6]
+        for (let i=0;i<users.length;i++){
+            let user = await query(users[i]);
+            let progress = ((i+1)/users.length)*100
+            loading.style.width = progress+ "%";
+            loading.innerHTML = Math.round(progress)+ "%"; //由于数据多的话有小数的情况,加上Math.round就没问题
+        }
+    })();
+</script>
+
+</html>

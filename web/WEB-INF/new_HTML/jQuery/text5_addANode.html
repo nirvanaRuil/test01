@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>添加节点方式案例</title>
+    <script src="../../../js/jquery-3.5.1.min.js"></script>
+    <style>
+        #srcCity{
+            height: 300px;
+            width: 200px;
+            background-color: #62c2a2;
+            float: left;
+        }
+        option{
+            font-size: 22px;
+        }
+        div{
+            float: left;
+        }
+        button{
+            float: left;
+            clear: both;
+            margin: 3px;
+        }
+        #anotherCity{
+            height: 300px;
+            width: 200px;
+            background-color: #62c2a2;
+            float: left;
+        }
+    </style>
+</head>
+<body>
+<h1>城市选择:</h1>
+<select name="srcCity" id="srcCity" multiple>
+    <option value="1">北京</option>
+    <option value="2">上海</option>
+    <option value="3">广州</option>
+    <option value="4">长沙</option>
+    <option value="4">西安</option>
+</select>
+<div class="btn">
+    <button id="btn1">>></button>
+    <button id="btn2"><<</button>
+    <button id="btn3">></button>
+    <button id="btn4"><</button>
+</div>
+<select name="srcCity" id="anotherCity" multiple></select>
+<!--multiple 属性规定输入字段可选择多个值。如果使用该属性，则字段可接受多个值。-->
+
+<script>
+    $(function () {
+        $('#btn1').click(function () {
+            $('#srcCity>option').appendTo('#anotherCity');
+        }); //全部到右边
+        $('#btn2').click(function () {
+            $('#anotherCity>option').appendTo('#srcCity');
+        }); //全部到左边 appendTo()把子元素添加到父元素中去
+        $('#btn3').click(function () {
+            $('#srcCity>option:selected').appendTo('#anotherCity');
+        }); //找到左边被选中的项添加到右边
+        $('#btn4').click(function () {
+            $('#anotherCity>option:selected').appendTo('#srcCity');
+        }); //option标签的selected 属性规定在页面加载时预先选定该选项。被预选的选项会显示在下拉列表最前面的位置。
+    });
+</script>
+<!--<optgroup> 标签定义选项组。optgroup 元素用于组合选项。当您使用一个长的选项列表时，对相关的选项进行组合会使处理更加容易。
+    也就是说是分组的,定义层级-->
+</body>
+<!--empty()清空节点 不仅仅清空了元素,还清空元素上绑定的事件
+remove()移除节点  自己把自己销毁 boom自杀了
+.parent()也可以连着写多个!  此元素的父亲的父亲的父亲  嗯神奇
+-->
+</html>

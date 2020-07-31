@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>v-on下的事件修饰符</title>
+    <script src="../../../../Vue/vue.min.js"></script>
+    <style>
+        .inner{
+            height: 150px;
+            background-color: palevioletred;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <div class="inner" @click="divHandler">
+        <input type="button" value="戳它" @click.stop="btnHandler">
+<!--.stop阻止事件冒泡-->
+<!--.prevent阻止默认行为,比如页面跳转-->
+<!--.capture实现捕获触发-->
+<!--.self只有自身可以触发,捕获和冒泡什么的都不可以触发事件处理函数-->
+<!--.once只触发一次事件处理函数-->
+<!--.self和.stop的区别
+    .stop是真正全部阻止, .self只阻止自身的冒泡/捕获行为,并不会影响其他的此行为-->
+    </div>
+</div>
+<script>
+    let vm = new Vue({
+        el:'#app',
+        data:{
+
+        },
+        methods: {
+            divHandler(){
+                alert('div的泡泡')
+            },
+            btnHandler(){
+                alert('btn的泡泡')
+            }
+        }
+    });
+</script>
+</body>
+</html>

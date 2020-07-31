@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v-on="http://www.w3.org/1999/xhtml" xmlns: xmlns: xmlns: xmlns: xmlns: xmlns:>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>v-cloak,v-text,v-html的使用,v-bind</title>
+    <script src="../../../../Vue/vue.min.js"></script>
+    <style>
+        [v-cloak]{
+            display: none;
+        }
+    /*    属性选择器*/
+    </style>
+</head>
+<body>
+<div id="app">
+    <p v-cloak>{{msg}}</p>
+<!--    插值表达式-->
+    <h4 v-text="msg"></h4>
+    <p v-html="msg2"></p>
+    <input type="button" value="按钮" :title="myTitle+'123'">
+<!--    <input type="button" value="按钮" v-bind:title="myTitle">-->
+<!--    v-bind是Vue中提供用于绑定属性的指令  可以简写为  :要绑定的属性  ,v-bind指令会把后面引号中的东西当做js代码去解析执行,会认为它是一个表达式,表达式+'字符串'是合法的.
+v-cloak能够解决插值表达式闪烁的问题.什么是闪烁问题?就是在加载页面的过程中,会出现表达式而不是该加载的信息-->
+    <input type="button" value="按钮1" @click="show">
+<!--    <input type="button" value="按钮1" v-on:click="show">-->
+<!--    v-on的缩写是@-->
+<!--此处的show方法需要在data中定义
+    不能直接在这写事件,会把事件认为是一个变量,在data中找.-->
+</div>
+<script>
+    let vm = new Vue({
+        el:'#app',
+        data:{  //拥有此Vue中所有数据
+            msg:'这是个啥',
+            msg2:'<h1>哎哟这是个啥东西呀</h1>',
+            myTitle:"这是一个自己定义的title"
+        },
+        methods:{  //定义此Vue中的所有方法
+            show:function () {
+                alert('真的弹出来了!')
+            }
+        }
+    })
+</script>
+</body>
+</html>

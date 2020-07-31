@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>做一个猜数字的小demo</title>
+    <script src="../../../../Vue/vue.min.js"></script>
+    <link rel="stylesheet" href="../../../../css/bootstrap.css">
+    <!--    <script src="../Vue/vue.js"></script>-->
+    <!--    <link rel="stylesheet" href="../Vue/bootstrap.css">-->
+</head>
+<body>
+
+<div id="app" style="text-align: center">
+    <h1 class="panel-heading panel panel-primary text-center">来猜猜数字吗</h1><br>
+    <h2>请输入1-99的一个随机数字--- 随机数是{{num}}</h2><br>
+    <span :style="[mar ,color] " ref="timing">{{content}}</span><br><br>
+    <input type="button" value="开始游戏" class="btn btn-info " :disabled="flagStart" @click="begin"><br><br>
+    <h3 :style="[mar]">已经猜了{{count}}次</h3>
+    <div>
+        <input type="text" class="center-block" :style="[mar]" v-model="guessNum" :readonly="only" @click="write">
+        <!--        记住了 所有的属性都能被绑定啊啊啊啊啊! 这么简单怎么没想到-->
+        <input type="button" value="确定" class="center-block btn btn-info" :style="[mar]" :disabled="disabled" @click="dge">
+        <input type="button" value="重新开始" class="center-block btn btn-info" :style="[mar]" @click="restart">
+    </div>
+    <div>
+        <h3 :style="[color,mar]" class="center-block" v-show="flag">恭喜你猜进我心里咯~</h3>
+        <h3 :style="[color,mar]" class="center-block" v-show="isNo" >还不是呀,再多试一次吧</h3>
+    </div>
+</div>
+
+<script>
+    let vm = new Vue({
+        el: '#app',
+        data: {
+            mar: {'margin': '20px auto'},
+            color: {color: 'red'},
+            guessNum:'',
+            num:'',
+            count:0,
+            only:true, //输入框不可点
+            flagStart:false, //开始游戏按钮可点
+            disabled:true, //确定按钮不可点
+            //下面两个是输赢状态显示的文本
+            flag: false,
+            isNo:false,
+            intervalID:null,
+            totalTime:10,
+            content:"准备好了吗",
+        },
+        created(){
+            this.num = Math.floor(Math.random() * 100+1)   //这里是this嗷....
+        },
+        methods:{
+            dge (){
+                if (this.guessNum == this.num) {
+                    this.flag = true
+                    this.isNo = false
+                    this.disabled = true //确定不可点
+                    this.count++
+                    clearInterval(this.intervalID)  //答对了计时器停止
+                } else if (this.guessNum != ''){
+                    this.isNo = true
+                    this.flag = false
+                    this.count++
+                }
+            },
+            begin(){
+                this.only = false
+                this.disabled = false
+                if (this.intervalID != null) return;
+                this.content = this.totalTime + 's'
+                this.intervalID =  setInterval( () => {
+                    this.totalTime--
+                    this.content = this.totalTime + 's'
+                    if(this.totalTime <= 0){
+                        clearInterval(this.intervalID)
+                        this.intervalID = null;
+                        this.only = true
+                        this.content = '你个智障,重新开始吧'
+                        this.flagStart = true
+                        this.disabled = true
+                        // this.totalTime = 10
+                    }
+                },1000)
+            },
+            restart(){
+                this.disabled = true
+                this.flagStart = false
+                this.count = 0
+                clearInterval(this.intervalID)
+                this.intervalID = null;
+                this.content = '准备好了吗'
+                this.only = true
+                this.flag = false
+                this.isNo = false
+                this.guessNum = ''
+                this.num = Math.floor(Math.random() * 100+1)
+                this.totalTime = 10
+            },
+            write(){
+                if (this.guessNum != this.num){
+                    this.guessNum = ''
+                }
+            }
+        },
+
+    });
+</script>
+
+</body>
+</html>

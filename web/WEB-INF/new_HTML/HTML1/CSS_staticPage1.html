@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        body{
+            font-size: 18px;
+            font-family: 华文楷体;
+        }
+        #picture{
+            position: fixed;
+            left: 100px ;
+            top: 200px;
+            z-index: 20;
+        }
+        #index{
+            margin: 0 auto;
+            width: 1000px;
+            height: 1000px;
+            background-color:snow;
+        }
+        #header{
+            float: left;
+            height: 255px;
+            width: 1000px;
+            margin-bottom: 5px;
+            overflow: hidden;
+            position: relative;
+        }
+        #icon{
+            position: absolute;
+            top:220px;
+            right: 100px;
+            width: 200px;
+            height: 30px;
+         /*图片间距有一个默认的字符间距,可用font-size=0;消除*/
+         }
+        #navigation{
+            float: left;
+            height: 35px;
+            width: 1000px;
+            background-color: dodgerblue;
+            margin-bottom: 5px;
+            text-align: center;
+            line-height: 35px;
+
+        }
+        a{
+            text-decoration: none ;
+        }
+        a:hover{
+            color: rosybrown;
+        }
+        #left{
+            float: left;
+            height: 695px;
+            width: 395px;
+            background-color:powderblue;
+            margin-right: 5px;
+            text-align: center;
+        }
+        #form{
+            font-size: 16px;
+            margin-bottom: 12px;
+        }
+        .img{
+            background: snow;
+            padding: 5px ;
+            border: black solid 2px;
+            margin-bottom: 2px;
+            -webkit-box-shadow:  3px 3px 5px brown ;
+            -moz-box-shadow: 3px 3px 5px brown ;
+            box-shadow:  3px 3px 5px brown ;
+            -webkit-border-radius:10px ;
+            -moz-border-radius:10px ;
+            border-radius: 10px;
+        }
+        .clockwise{
+            -webkit-transform:rotate(5deg) ;
+            -moz-transform:rotate(5deg) ;
+            transform:rotate(5deg) ;
+        }
+        /*顺时针和逆时针也可以使用奇偶选择器来完成*/
+        .anticlockwise{
+            -webkit-transform:rotate(-5deg) ;
+            -moz-transform:rotate(-5deg) ;
+            transform:rotate(-5deg) ;
+        }
+        .img:hover{
+            transform: scale(1.1,1.1);
+        }
+        #right{
+            float: right;
+            height: 695px;
+            width: 600px;
+            background-color:cornflowerblue;
+        }
+        .subcont{
+            width: 570px;
+            margin: 7px auto;
+            clear: both;
+        }         /* 这两块不是很懂,为什么要整体设置一个subcont,然后设置clear:both?
+                     每个元素都是一个块.一个图片加一段文字是一个大的div是一个整体的块,里面又分为一个图片和一段话两个div两个小块,
+                     在right这个大块中,给每个小块设置浮动定位,给整体的块设置clear:both,前后没有定位.这样显示出来的效果就是一个整体的块独占一整行,
+                     要是不设置clear:both,则会出现第二个整体块中的一个小块浮动到第一个整体块的区域里.*/
+        .subcont img{   /* 可以直接类名/id来嵌套里面的属性/其他 这就不需要再多加一个类名或id名费事*/
+            margin: 5px;
+            padding: 5px;
+            float: left;
+            border: 1px dashed black;
+            -webkit-border-radius:10px ;
+            -moz-border-radius:10px ;
+            border-radius: 10px;
+        }
+         .text {
+            width: 60%;  /*父级宽度的60%*/
+            float: left;
+            margin: 5px;
+        }
+        h2{
+            color: darkred;
+        }
+        p{
+            color: firebrick;
+        }
+    </style>
+</head>
+<body>
+    <img src="../picture/卡布奇诺.jpg" height="120" width="110" id="picture"/>
+    <div id="index">
+        <div id="header">
+            <img src="../picture/3333.jpg" height="608" width="1000"/>
+            <div id="icon">
+                <img src="../picture/4.bmp" height="21" width="21"/>
+                <img src="../picture/3.bmp" height="21" width="21"/>
+                <img src="../picture/2.bmp" height="21" width="21"/>
+                <img src="../picture/1.bmp" height="21" width="21"/>
+            </div>
+        </div>
+        <div id="navigation">
+            <a href="#" >咖啡MENU</a>|<a href="#">咖啡COOK</a>|<a href="#">咖啡STORY</a>|<a href="#">咖啡NEWS</a>|<a
+                href="#">咖啡PARTY</a>
+        </div>
+        <div id="left">
+            <div id="form">
+             <h2>咖啡MENU</h2>
+                <table style="margin:10px auto">   <!--想给谁设定功能就给谁加功能,千万不可越级-->
+                    <tr>
+                        <th></th>
+                        <th>卡布奇诺 <br>Latte</th>
+                        <th>拿铁<br>Cappuccino</th>
+                        <th>摩卡<br>Mocha</th>
+                        <th>黑咖<br>Espresso</th>
+                    </tr>
+                    <tr>
+                        <th scope="row">大杯</th>
+                        <td>35</td>
+                        <td>35</td>
+                        <td>35</td>
+                        <td>30</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">中杯</th>
+                        <td>30</td>
+                        <td>30</td>
+                        <td>30</td>
+                        <td>25</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">小杯</th>
+                        <td>25</td>
+                        <td>25</td>
+                        <td>25</td>
+                        <td>20</td>
+                     </tr>
+                    <!--scope="row"行表头
+                        scope="clo"列表头-->
+                 </table>
+            </div>
+            <br>
+            <div><img src="../picture/2222.jpg" height="100" width="95" class="img clockwise"/></div>
+            <div><img src="../picture/3333.jpg" height="100" width="95" class="img anticlockwise"/></div>
+            <div><img src="../picture/卡布奇诺.jpg" height="100" width="95" class="img clockwise"/></div>
+            <div><img src="../picture/黑咖.jpg" height="100" width="95" class="img anticlockwise"/></div>
+        </div>
+        <div id="right">
+            <div class="subcont">
+                <img src="../picture/2222.jpg" height="150" width="135"/>
+                <div  class="text">
+                    <h2>拿铁Caffè Latte</h2>
+                    <p >这是一种传统的经典饮料——浓缩咖啡调入热牛奶，其上覆盖一层轻盈的奶沫。<br>品尝此款咖啡时，您可以选择特别加入某种口味（如香草，焦糖或杏仁口味）的糖浆。</p>
+                </div>
+            </div>
+            <div class="subcont">
+                <img src="../picture/3333.jpg" height="150" width="135"/>
+                <div class="text" >
+                    <h2>卡布奇诺Cappuccino</h2>
+                    <p>这款咖啡沿袭传统技法，由我们技艺娴熟的咖啡吧员将手工制作的热奶与细腻奶泡轻柔地浇在浓缩咖啡之上制作而成。</p>
+                </div>
+            </div>
+            <div class="subcont">
+                <img src="../picture/卡布奇诺.jpg" height="150" width="135"/>
+                <div class="text" >
+                    <h2>摩卡Caffè Mocha</h2>
+                    <p>这款咖啡由醇香的摩卡酱，浓缩咖啡和蒸奶相融相合，上面覆以搅打奶油。<br>寒冷的日子里，忧伤的时光中,任何人都无法抵抗她的诱惑。</p>
+                </div>
+            </div>
+            <div class="subcont">
+                <img src="../picture/黑咖.jpg" height="150" width="135"/>
+                <div class="text" >
+                    <h2>浓缩咖啡Espresso</h2>
+                    <p>这是咖啡的精粹，以最浓缩的方式显现。浓缩咖啡带点焦糖味道，浓厚馥郁。</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

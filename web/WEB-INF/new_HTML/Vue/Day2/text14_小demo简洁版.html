@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="../../Vue/vue.js"></script>
+    <title>Title</title>
+    <style>
+        .v-enter,
+        .v-leave-to {
+            color: #eea236;
+            opacity: 10%;
+            transform: translateX(300px);
+        }
+        .v-enter-active,
+        .v-leave-active{
+            transition: all 0.4s ease;
+            text-shadow: 3px 3px 1px #d0cfcf;
+        }
+
+    </style>
+
+</head>
+<body>
+
+<div id="app" style="text-align: center" >
+
+    <h2>{{msg}}</h2>
+    <h3 style="color: #c7254e">倒计时:{{time}}秒</h3><br>
+    <hr>
+    <br><br>
+    <h2>随机数是{{randomNum}}! </h2>
+    <input type="text" v-model="guessNum" @focus="guessNum=''"><br><br>
+    <input type="button" value="确定" @click="judge">
+    <input type="button" value="重置" @click="newGame">
+    <h2 >您一共猜了{{count}}次</h2>
+    <transition mode="out-in">
+        <component :is="comName" style="text-shadow: 3px 3px 1px #d0cfcf;" :parentwinmsg="winmsg"></component>
+    </transition>
+</div>
+
+
+<script>
+    // Vue.component('win',{
+    //     template:'<h1  style="color: #c7254e ;font-size: 40px">{{winmsg}}</h1>',
+    //     data: function () {
+    //         return {winmsg:'恭喜你猜对了!!!' }
+    //         },
+    // })
+    Vue.component('lose',{
+        template:' <h2 style="color: cadetblue">不对不对,请再试试!</h2>'
+    })
+    Vue.component('start',{
+        template:' <h2 > 点击确定,开始游戏!</h2>'
+    })
+
+    let vm = new Vue({
+        el:'#app',
+        data:{
+            comName:'start',
+            msg: '请猜一个1-100的随机数字  ',
+            randomNum:0,
+            guessNum:null,
+            intervalWin:null,
+            count:0,
+            time:20,
+            intervalId:null,
+            winmsg:'恭喜你猜对了一一一'
+
+        },
+        components:{
+            win:{
+                template:'<h1  style="color: #c7254e ;font-size: 40px" >{{parentwinmsg}}</h1>',
+                props:['parentwinmsg'],
+            }
+
+        },
+        methods:{
+            judge(){
+                if (this.randomNum == this.guessNum) {
+                    this.comName = 'win'
+                    this.count++
+                    clearInterval(this.intervalId);
+                    this.intervalId = null
+                    if (this.intervalWin == null) {
+                        this.intervalWin = setInterval(() => {
+                            let start = this.winmsg.substring(0, 1);//选到第一个字符
+                            let end = this.winmsg.substring(1);
+                            this.winmsg = end + start
+                        }, 300)
+                    }
+                    return
+                } else if (this.guessNum != null && this.guessNum != '') {
+                    this.comName = 'lose'
+                    this.count++
+                }
+                if (this.intervalId != null) return;
+                this.intervalId = setInterval(() => {
+                    this.time--
+                }, 1000)
+            },
+            newGame(){
+                clearInterval(this.intervalId);
+                this.comName ='start'
+                this.time=20
+                this.intervalId=null
+                this.count=0
+                clearInterval(this.intervalWin)
+                this.intervalWin=null
+                this.guessNum = null
+                this.randomNum = Math.floor(Math.random()*100+1)
+            }
+        },
+        watch:{
+            time(v1){  //v1是当前值的形参
+                if (v1==-1){
+                    // clearInterval(this.intervalId);
+                    // this.intervalId=null
+                    alert("时间到,您一共猜了"+this.count+"次,\n点击确定游戏将重置")
+                    this.newGame();
+                }
+            }
+        },
+        created(){
+            this.randomNum = Math.floor(Math.random()*100+1)
+        },
+
+    });
+</script>
+
+</body>
+</html>

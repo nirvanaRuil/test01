@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Promise.all</title>
+</head>
+<body>
+
+</body>
+<script src="ajax.js"></script>
+<script>
+    //返回的所有状态都是已解决状态
+    //原理
+    const one = new Promise((resolve, reject) => {
+        setTimeout(() => {
+            //resolve("第一个异步");
+            reject("fail");
+        },1000);
+    }).catch(error => {
+        console.log(error);  //这里已经对reject有所处理,所以整体返回的是一个解决状态
+    });  //catch是对reject处理,它处理之后本身也会返回一个解决状态,所以在all里面就是成功状态
+    const two = new Promise((resolve, reject) => {
+        setTimeout(() => {
+            resolve("第二个异步");
+        },1000);
+    });
+    Promise.all([one,two])
+        .then(result => {
+            console.log(result);
+        })
+        .catch(error => {
+            console.log(error);
+        })
+
+
+    //例子
+    //批量获取用户资料
+   const promise = ['后盾人','向军'].map(name => {
+       return ajax(`http://localhost:8888/php?name=${name}`)
+   });
+    Promise.all(promise).then(users => {
+        console.log(users);  //批量获取到信息了
+    });
+
+    //也可以封装成函数再拿用户资料
+    function getUsers(names){
+        return names.map(name => {
+            return ajax(`http://localhost:8888/php?name=${name}`)
+        })
+    }
+    getUsers(['后盾人','向军']).then(users => {
+        console.log(users);  //批量获取到信息了
+    });
+</script>
+</html>

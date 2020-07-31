@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Title</title>
+    <script src="../../../../Vue/vue.min.js"></script>
+    <script src="../../../../Vue/vue-router-3.0.1.js"></script>
+</head>
+<body>
+
+<div id="app">
+    <router-link to="/account">account</router-link>
+    <router-view></router-view>
+</div>
+
+<template id="tmp1">
+    <div>
+
+        <h1>这是account组件</h1>
+        <router-link to="/account/login">登录</router-link>
+        <router-link to="/account/register">注册</router-link>
+        <router-view></router-view>
+<!--        展示子路由里的东西-->
+<!--  <router-link to="">to中的值是一个字符串路径
+      <router-link :to="">属性也能跟push方法一样使用-->
+    </div>
+</template>
+
+<script>
+
+    let login = {
+        template: '<h1>登录</h1>'
+    }
+
+    let register = {
+        template: '<h1>注册</h1>'
+    }
+
+    let account = {
+        template:'#tmp1'
+    }
+
+    let router = new VueRouter({
+        routes:[  //这个route表示路由匹配规则
+            {
+                path :'/account' ,
+                component:account,
+                children:[  //路由嵌套,父级是'/account'
+                    {path :'login' , component:login},
+                    //使用children属性实现子路由时,子路由的path前面不能加斜线,否则永远以根路径开始请求,这样不方便用户去理解URL地址
+                    {path :'register' , component:register},
+                ]
+            },
+            // {path :'/account/login' , component:login},
+            // {path :'/account/register' , component:register},
+        ]
+    })
+
+
+
+
+    let vm = new Vue({
+        el:'#app',
+        data:{
+            msg: '欢迎学习vue',
+        },
+        methods:{
+
+        },
+        router ,
+    });
+</script>
+
+</body>
+</html>

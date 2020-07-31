@@ -1,0 +1,102 @@
+/**{*/
+/*    padding: 0;*/
+/*    margin: 0;*/
+/*}*/
+@media screen and (min-width: 1280px) {
+    .container {
+        width: 1280px;
+    }
+}
+/*修改container的最大宽度为1280,要根据设计稿走*/
+ul{
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+.logo{
+    background-color: #1b6d85;
+}
+.logo img{
+    width: 100%;
+/*实现自适应缩放效果*/
+/*    max-width:100%;不进行缩放放大效果*/
+}
+.nav{
+    background-color: darkgrey;
+    border-bottom: 2px mediumvioletred solid;
+}
+.nav a{
+    text-decoration: none;
+    display: block;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+}
+.nav a:hover{
+    background-color: white;
+    text-decoration: none;
+}
+.nav a::before{
+    vertical-align: middle;
+    /*设置元素的垂直对齐方式
+       middle	把此元素放置在父元素的中部。*/
+    padding-right: 5px;
+}
+/*因为字体图标在代码里是加了一个::before  只加了个图标进去其他设置自己设*/
+@media screen and (max-width: 991px){
+    .nav li{
+        float: left;
+        width: 20%;
+    }
+}  /* 小屏及超小屏下浮动为一行*/
+@media screen and (max-width: 767px){
+    .nav li a{
+        font-size: 8px;
+        padding: 0;
+    }
+}
+.news li{
+    float: left;
+    width: 25%;
+    height: 128px;
+    background-color: #2b669a;
+    border: white 5px solid;
+    text-align: center;
+    line-height: 128px;
+    position: relative;
+}
+.news li:nth-child(1){
+    width: 50%;
+    height: 266px;
+    line-height: 266px!important;
+    background-color: mediumvioletred;
+}    /*news 中ul的第一个li*/
+@media screen and (max-width: 767px){
+    .news li:nth-child(1){
+        width: 100%;
+    }
+    .news li{
+        width: 50%;
+    }
+}
+.news li a p{
+    height: 30%;
+    width: 100%;
+    margin: 0;
+    position: absolute;
+    float: left;
+    left: 0;
+    bottom: 0;
+    padding: 0;
+    background: rgba(0,0,0,.5);
+    text-align: center;
+}
+.publish {
+    height: 150px;
+    background-color: #2aabd2;
+    border-top: #666666 2px solid;
+    padding: 0;
+}
+aside img{
+    width: 100%;
+}

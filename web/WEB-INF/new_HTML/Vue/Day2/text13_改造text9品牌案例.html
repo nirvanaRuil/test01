@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>改造text9品牌案例</title>
+    <script src="../../../../Vue/vue.min.js"></script>
+    <script src="../../../../Vue/vue-resource-1.3.4.js"></script>
+    <link rel="stylesheet" href="../../../../css/bootstrap.css">
+</head>
+<body>
+
+<div id="app">
+
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title">添加品牌</h3>
+        </div>
+        <div class="panel-body form-inline">
+<!--            form-inline 在一行显示-->
+            <lable>
+                Name:
+                <input type="text" v-model="name" class="form-control">
+            </lable>
+            <input type="button" value="添加" @click="add" class="btn btn-primary">
+        </div>
+    </div>
+
+    <table class="table table-hover table-striped table-bordered">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Ctime</th>
+            <th>Operation</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr v-for="item in list" :key="item.id">
+            <td>{{item.id}}</td>
+            <td>{{item.name}}</td>
+            <td>{{item.ctime}}</td>
+            <td><a href=" " @click.prevent="del(item.id)">删除</a></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<script>
+
+    Vue.http.options.root = 'http://vue.studyit.io';  //配置全局请求数据接口的根域名
+//此时每次单独发起http请求的时候,请求的URL路径应以相对路径开头,前面不能带斜线/,否则就不会启用根路径做拼接
+    Vue.http.options.emulateJSON = true;  //全局启用emulateJSON选项,速度也会变快
+
+    let vm = new Vue({
+        el:'#app',
+        data:{
+            name:'',
+            list:[  //存放所有品牌列表的数组
+                { id:1, name: '大众', ctime: new Date()},
+                { id:1, name: '宝马', ctime: new Date()}
+            ],
+        },
+        created(){   //当data和methods初始化完成之后,vm会自动执行这个初始化函数.
+            this.getAllList()
+        },
+        methods:{
+            //每次发起ajax之后都要带上地址,如果以后要更该页面,还要每个都改,适用性不高
+            getAllList: function () {  //从数据库获取列表
+                this.$http.get('api/getprodlist').then(result => {  //如果前面请求了服务器数据请求的根地址,下面的路径就要是相对路径.所以api前的/不能加
+                    var result = result.body
+                    //注意:通过$http获取到的数据都在result.body中放着
+                    if (result.status === 0) {  //判断result结果  status=0表示返回成功
+                        this.list = result.message //成功
+                    } else {
+                        alert('获取数据失败!')
+                    }
+                })
+            },
+            add(){  //添加品牌列表到后台服务器
+                this.$http.post('api/addproduct',{name:this.name} ).then(result => {  //因为用了全局emulateJSON,所以这里的第三个参数就删掉啦
+                    if (result.body.status === 0){
+                        this.getAllList()//添加完成后,只需要手动再调用一下getAllList就能手动刷新品牌列表
+                        this.name = ''  //清空name
+                    }else{
+                        alert('失败了!')
+                    }
+                })
+            },
+            del(id){  //删除品牌列表到后台服务器
+                this.$http.get('api/delproduct/:id' + id).then(result => {
+                    if (result.body.status === 0){
+                        this.getAllList()  //删除完成后,只需要手动再调用一下getAllList就能手动刷新品牌列表
+                    }else{
+                        alert('失败了!')
+                    }
+                })
+            },
+        }
+    });
+</script>
+<!--(从数据库获取列表)
+分析:1.由于已导入vue-resource这个包,所以可以直接用this.$http来发起数据请求
+    2.根据接口API文档知道,获取列表文档的时候,应该发起一个get请求
+    3.this.$http.get('url').then(function(result) {})
+    4.当通过then指定回调函数之后,在回调函数中,可以拿到数据服务器返回的result
+    5.先判断result.status是否等于0,如果等于0,就成功了,就可以把result.message赋值给this.list;
+      如果不等于0,可以弹框提醒,获取数据失败!-->
+<!--(添加品牌列表到后台服务器)
+分析:1.经过查看数据API接口,发现,要发送一个post请求,this.$http.post('url').then(function(result) {})
+    2.this.$http.post()中接收三个参数:一:URL地址;二:要提交给服务器的数据,要以对象形式提交给服务器 {name = this.name}
+    三:是一个配置对象,要以哪种表单数据类型提交过去 {emulateJSON:true}  ,以普通表单格式提交给服务器application/x-www-form-urlencoded作为MIME type
+    3.在post方法中使用.then设置成功的回调函数,如果想拿到成功的结果要使用result.body->
+</body>
+</html>

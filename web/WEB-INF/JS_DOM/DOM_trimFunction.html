@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>去除字符串的前后空白trim</title>
+</head>
+<body>
+     <script type="text/javascript">
+         window.onload=function () {
+            document.getElementById('ton').onclick=function () {
+                let username=document.getElementById('username').value;
+                username=username.trim();
+                 //去除前后空白
+                alert(username+'<---');  //测试是否去除
+            }
+         }
+     </script>
+     <input type="text" id="username"/>
+     <input type="button" value="获取用户名" id="ton"/>
+
+<!--  如果没有这个函数,可以自己对String类扩展一个函数
+        String.prototype.trim=function(){
+            return this.replace('/^\s+/','').replace('/\s+$/','');
+        }          /^\s+/前空格的正则表达式  /\s+$/后空格的正则表达式
+
+          prototype可以给类扩展方法-->
+
+</body>
+</html>

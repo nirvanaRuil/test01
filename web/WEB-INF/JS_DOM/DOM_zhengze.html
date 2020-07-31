@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>正则表达式</title>
+</head>
+<body>
+<script type="text/javascript">
+    // 正则表达式（Regular Expression）主要用在字符串格式匹配方面，是一门独立的学科，大部分编程语言都支持正则表达式。最初使用在医学方面，用来表示神经符号，目前使用最多的是计算机编程领域，包括搜索方面等。
+    //对于js来说正则表达式要掌握到什么程度？  认识常见的符号；写简单的正则表达式；能看懂正则表达式；创建正则表达式对象（new对象）；在js中正则表达式对象有哪些方法（调方法）；要能够快速的从网络上找到自己需要的正则表达式，并且测试其有效性
+
+    /*常见的正则表达式符号?
+      .匹配除换行符以外的任意字符
+      \w匹配字母或数字或下划线或汉字
+      \s匹配任意的空白符
+      \d匹配数字
+      \b匹配单词的开始或结束
+      ^匹配字符串的开始
+      $匹配字符串的结束
+      g--全局匹配
+
+      \W匹配任意不是字母,数字,下划线,汉字的字符
+      \S匹配任意不是空白符的字符
+      \D匹配任意非数字的字符
+      \B匹配不是单词开头或结束的位置
+      [^x]匹配除了x以外的任意字符
+      [^aeiou]匹配除了aeiou这几个字母意外的任意字符
+
+      *重复零次或更多次
+      +重复一次或更多次
+      ?重复零次或一次
+      {n}重复n次
+      {n,}重复n次或更多次
+      {n,m}重复n到m次
+
+      |表示或者  创建正则表达式时前后加/     []表示里面随机取一个
+
+      简单的正则表达式:
+      QQ号的表达式:^([1-9][0-9]){4,}    (表示[1-9][0-9]各出现四次)   ^\d+@(qq)\.(com)$
+
+      邮箱地址:^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$
+
+      正则表达式中的小括号()优先级较高  [1-9]表示1-9的任意一个数字,次数为一
+      [A-Za-z0-9]表示A-Za-z0-9中的任意一个字符
+      [A-Za-z0-9-]表示A-Z、a-(区间)z、0-9 -(减号),以上所有字符中的任意一个字符
+
+      怎么创建正则表达式对象,怎么调用正则表达式对象的方法?
+      第一种创建方式:
+          var regExp=/正则表达式/flags;
+      第二种创建方式:使用内置支持类RegExp
+          var regExp=new RegExp('正则表达式','flags');
+
+          flags:  g--全局匹配;i--忽略大小写;m--多行查找(ES规则制定后才支持)  当前面是正则表达式时,m不能用,只有是普通字符串
+          时,才可以用m
+
+
+          test()方法:  true/false=正则表达式对象.test(用户填写的字符串);
+              返回true:字符串格式匹配成功
+              */
+    window.onload=function () {
+        document.getElementById('ton').onclick=function () {   //给按钮绑定click
+            const email = document.getElementById('email').value;
+            const emailRegExp = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
+            const ok = emailRegExp.test(email);
+            if (!ok){
+                document.getElementById('emailError').innerText='邮箱地址不合法';
+            }
+        }
+        document.getElementById('email').onfocus=function () {   //给文本框绑定focus
+            document.getElementById('emailError').innerText='';  //意思就是点击文本框的时候'邮箱地址不合法'那句提示语为空
+        }
+    }      //验证邮箱是否符合格式
+</script>
+<input type="text" id="email"/>
+<input type="button" value="验证邮箱" id="ton"/>
+<br>
+<span id="emailError" style="color: #62c2a2;font-size: 12px"></span>
+</body>
+</html>

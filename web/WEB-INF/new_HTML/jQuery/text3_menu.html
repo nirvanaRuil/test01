@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>筛选选择器</title>
+    <script src="../../../js/jquery-3.5.1.min.js"></script>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        body{
+            background-color: #2b542c;
+        }
+
+        .menu{
+            height: 300px;
+            width: 300px;
+        }
+
+        /*突出显示案例*/
+        #six ul{
+            margin: 0 auto;
+            height: 550px;
+            width: 800px;
+            /*box-sizing: border-box;*/
+            border: black 3px solid;
+            list-style-type: none;
+        }
+        #six ul li{
+            /*margin: 0 auto;*/
+            text-align: center;
+            float: left;
+            margin: 10px;
+        }
+        /*.nth:nth-child(1) {*/
+        /*    animation: all .3s linear 1s infinite;*/
+        /*}*/
+        /*.nth:nth-child(2) {*/
+        /*    animation: all .3s linear 2s infinite;*/
+        /*}*/
+        /*.nth:nth-child(3) {*/
+        /*    animation: all .3s linear 3s infinite;*/
+        /*}*/
+        /*.nth:nth-child(4) {*/
+        /*    animation: all .3s linear 4s infinite;*/
+        /*}*/
+        /*.nth:nth-child(5) {*/
+        /*    animation: all .3s linear 5s infinite;*/
+        /*}*/
+        /*.nth:nth-child(6) {*/
+        /*    animation: all .3s linear 6s infinite;*/
+        /*}*/
+        /*@keyframes all {*/
+        /*    0%{*/
+        /*        opacity: 1;*/
+        /*    }*/
+        /*    100%{*/
+        /*        opacity: 0.4;*/
+        /*    }*/
+        /*}*/
+        /*dbq我还是不会加动画*/
+
+        /*弹出框案例*/
+        .popup {
+            height: 200px;
+            width: 200px;
+        }
+        .popup ul li ul{
+            height: 100px;
+            width: 200px;
+            border: #62c2a2 2px solid;
+        }
+    </style>
+</head>
+<body>
+<div class="menu">
+    <ul>
+        <li>
+            <a href="javascript:void(0)">一级菜单1</a>
+            <ul style="display: none;">
+                <li><a href="javascript:void(0);">二级菜单1</a></li>
+                <li><a href="javascript:void(0);">二级菜单2</a></li>
+                <li><a href="javascript:void(0);">二级菜单3</a></li>
+                <li><a href="javascript:void(0);">二级菜单4</a></li>
+            </ul>
+        </li>
+        <li>
+            <a href="javascript:void(0)">一级菜单2</a>
+            <ul style="display: none;">
+                <li><a href="javascript:void(0);">二级菜单1</a></li>
+                <li><a href="javascript:void(0);">二级菜单2</a></li>
+                <li><a href="javascript:void(0);">二级菜单3</a></li>
+                <li><a href="javascript:void(0);">二级菜单4</a></li>
+            </ul>
+        </li>
+        <li>
+            <a href="javascript:void(0)">一级菜单3</a>
+            <ul style="display: none;">
+                <li><a href="javascript:void(0);">二级菜单1</a></li>
+                <li><a href="javascript:void(0);">二级菜单2</a></li>
+                <li><a href="javascript:void(0);">二级菜单3</a></li>
+                <li><a href="javascript:void(0);">二级菜单4</a></li>
+            </ul>
+        </li>
+    </ul>
+</div>
+<script>
+    //这里用到筛选选择器的方法
+    $(function () {
+        $('.menu>ul>li').mouseenter(function () {
+            // console.log(this); //谁触发了鼠标移入事件,this就是谁,this还是个dom对象
+           $(this).children('ul').css('display','block');
+           //  $(this).children('ul').show();  .show的方法本质上还是更改display属性为block
+        });
+        $('.menu>ul>li').mouseleave(function () {
+            $(this).children('ul').css('display','none');
+            //  $(this).children('ul').hide();  .hide的方法本质上还是更改display属性为none
+        });
+    });
+</script>
+<!--为什么不给一级标签a设置鼠标移入和离开事件?
+     $('.menu>ul>li>a').mouseover(function () {
+            $(this).siblings('ul').css('display','block');
+     });
+     如果要给a标签设置事件,就必须用到.siblings(查找兄弟节点,不包括自己),但是这样的话鼠标移入事件,只会移入一级菜单事件,和二级菜单无关移入不了二级菜单-->
+<!--mouseover事件在鼠标移动到选取元素及其子元素上时触发(触发次数过多产生的数据过多)
+    mouseenter事件只在鼠标移动到选取元素上触发,推荐使用
+    mouseout 事件在鼠标移动到选取元素及其子元素上时触发(触发次数过多产生的数据过多)
+    mouseleave事件只在鼠标移动到选取元素上触发,推荐使用-->
+
+
+<!--突出显示案例-->
+<div id="six">
+    <ul>
+                <li style="opacity: 1;"><img src="../picture/mofang/a0.png" height="230" width="230" class="nth"/></li>
+                <li style="opacity: 1;"><img src="../picture/mofang/a1.png" height="230" width="230" class="nth"/></li>
+                <li style="opacity: 1;"><img src="../picture/mofang/a2.png" height="230" width="230" class="nth"/></li>
+                <li style="opacity: 1;"><img src="../picture/mofang/a3.png" height="230" width="230" class="nth"/></li>
+                <li style="opacity: 1;"><img src="../picture/mofang/a4.png" height="230" width="230" class="nth"/></li>
+                <li style="opacity: 1;"><img src="../picture/mofang/a5.png" height="230" width="230" class="nth"/></li>
+    </ul>
+</div>
+<script>
+    $(function () {
+        $('#six>ul>li').mouseenter(function () {
+            $(this).css('opacity',1).siblings('li').css('opacity',0.4);
+        });  //找到li并且设置鼠标点入时自身不透明度为1,兄弟元素不透明度为0.4
+        $('#six>ul').mouseleave(function () {  //这里一定注意!!!给ul设置了宽度高度,在这里就要设置移开ul,不能越级设置six
+            $('#six>ul>li').css('opacity',1);  //设置当鼠标移开这个ul时,所有li透明度为1
+        }); //这里写$(this).find('li')也没问题, 这里的this指代的就是开始$()中的元素
+    });
+    // $('#six').find('li').mouseenter(function () {
+    //     $(this).css('opacity','1').siblings('li').css('opacity','0.4');
+    // });  find是找到父元素的子元素li
+</script>
+
+
+<!--弹出框案例-->
+<div class="popup">
+    <ul>
+        <li>
+            <a href="javascript:void(0)">菜单1</a>
+            <ul style="display: none;">
+                <li>弹出来的菜单2</li>
+            </ul>
+
+        </li>
+        <li>
+            <a href="javascript:void(0)">菜单2</a>
+            <ul style="display: none;">
+                <li>弹出来的菜单2</li>
+            </ul>
+        </li>
+        <li>
+            <a href="javascript:void(0)">菜单3</a>
+            <ul style="display: none;">
+                <li>弹出来的菜单3</li>
+            </ul>
+        </li>
+    </ul>
+</div>
+<script>
+    $(function () {
+        $('.popup>ul>li').click(function () {
+            // console.log(this); //谁触发了鼠标移入事件,this就是谁,this还是个dom对象
+            $(this).children('ul').css('display', 'block').parent().siblings('li').children('ul').css('display', 'none');
+            //.show本质上还是更改display属性为block  //给li的子元素ul设置block,返回父元素li,再找到父元素li的兄弟元素其他的li,给这些li的子元素ul设置none
+        });
+    });
+</script>
+
+<!--点击换图案例-->
+<ul id="left">
+    <li><a href="#"></a></li>
+    <li><a href="#"></a></li>
+    <li><a href="#"></a></li>
+    <li><a href="#"></a></li>
+    <li><a href="#"></a></li>
+</ul>
+<ul id="center">
+    <li><a href="#"></a></li>
+    <li><a href="#"></a></li>
+    <li><a href="#"></a></li>
+    <li><a href="#"></a></li>
+    <li><a href="#"></a></li>
+    <li><a href="#"></a></li>
+    <li><a href="#"></a></li>
+    <li><a href="#"></a></li>
+    <li><a href="#"></a></li>
+    <li><a href="#"></a></li>
+</ul>
+<ul id="right">
+    <li><a href="#"></a></li>
+    <li><a href="#"></a></li>
+    <li><a href="#"></a></li>
+    <li><a href="#"></a></li>
+    <li><a href="#"></a></li>
+</ul>
+<script>
+    $(function () {
+        $('#left>li').mouseenter(function () {
+            let idx = $(this).index();  //index() 方法返回指定元素相对于其他指定元素的 index 位置。这些元素可通过 jQuery 选择器或 DOM 元素来指定。
+            $('#center>li').eq(idx).show().siblings('li').hide();
+            //$('#center>li:eq(idx)')这种写法是错误的,因为此时eq(idx)成为语句的一部分,不会被单独提出来.
+        });
+        $('#right>li').mouseenter(function () {
+            let idx = $(this).index();
+            $('#center>li').eq(idx).show().siblings('li').hide();
+            //显示show() 隐藏hide()
+        });
+    });
+</script>
+<!--为什么不给a设置鼠标移入移除事件?
+    如果给a设置事件的话,a没有兄弟元素,所以不能起到索引作用,不能拿到正确的索引
+    索引:这个元素在他兄弟元素间的排行-->
+</body>
+</html>

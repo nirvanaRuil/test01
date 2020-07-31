@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>bootstrap基础设置</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <!-- 可选的 Bootstrap 主题文件（一般不用引入） -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <style>
+       [class^="col"]{   /* 代表包含  col-  的类名 */
+            border: #010b10 1px solid;
+        }
+        .row div{
+            height: 50px;
+            background-color: #62c2a2;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">1</div>
+        <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">2</div>
+        <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">3</div>
+        <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">4</div>
+    </div>
+<!--    如果孩子的份数相加等于12,则孩子能占满整个container宽度-->
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="row">
+<!--在盒子里面又分盒子时,最好要添加行class="row",这样可以去掉父元素的padding值,而且高度自动和父级一样高 -->
+                <div class="col-md-3">1111</div>
+                <div class="col-md-9">2222</div>
+            </div>
+        </div>
+        <div class="col-lg-2">2</div>
+        <div class="col-lg-2">3</div>
+        <div class="col-lg-2">4</div>
+    </div>
+    <div class="row">
+        <div class="col-lg-4">zuo</div>
+        <div class="col-lg-3 col-md-offset-5">you</div>
+        <!-- col-md-offset-6 在lg屏幕下占3格的元素向右偏移5格   向右偏移相当于给左添加margin值,但是不能自己加margin实现列偏移-->
+    </div>
+<!--  如果孩子的份数相加小于12,则孩子相加铺不满container,会有空白
+      如果孩子的份数相加大于12,则多余的那一列会另起一行显示-->
+    <div class="row">
+        <div class="col-lg-4 col-md-offset-4">中间</div>
+    <!--如果想放在中间,12-所占格/2=向右偏移量-->
+    </div>
+    <div class="row">
+        <div class="col-md-4 col-md-push-8">zuo</div>
+        <div class="col-md-8 col-md-pull-4">you</div>
+        <!--通过使用.col-md-push-栅格数 和 .col-md-pull-栅格数 这两个类就可以改变列的顺序-->
+</div>
+<!--  .hidden-xs/sm/md/lg 表示隐藏页面,在这种页面模式下内容隐藏,其他情况显示
+      .visible.xs/sm/md/lg  表示显示页面,在这种页面下内容显示,其他界面内容隐藏-->
+<!--每一列默认有左右15像素的padding-->
+
+</body>
+</html>

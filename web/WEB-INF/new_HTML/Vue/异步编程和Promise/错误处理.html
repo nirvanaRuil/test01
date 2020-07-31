@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>错误处理</title>
+</head>
+<body>
+
+</body>
+<script src="ajax.js"></script>
+<script>
+
+    let url = `ttp://localhost:8888/php`;
+    ajax(`${url}/user.php?name=后盾人`)
+        .then(value =>{
+        console.log(value)
+        })
+    .catch(error => {
+        if (error instanceof ParamError){
+            console.log(error.message);
+        }
+        if (error instanceof HttpError){
+            alert(error.message);
+        }
+    })
+    //在Ajax中定义了两个错误类,两个错误类同时进行,可以在这个catch中if
+</script>
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>组件切换</title>
+    <script src="../../../../Vue/vue.min.js"></script>
+    <style>
+        .v-enter,
+        .v-leave-to{
+            opacity: 20%;
+            transform: translateY(50px);
+        }
+        .v-enter-active,
+        .v-leave-active{
+            transition: all 0.3s ease;
+        }
+    </style>
+</head>
+<body>
+
+<div id="app">
+<!--    方法一-->
+    <a href="#" @click.prevent="flag=true">登录</a>
+    <a href="#" @click.prevent="flag=false">注册</a>
+
+    <login1 v-if="flag"></login1>
+    <login2 v-else="flag"></login2>
+
+<!--    方法二-->
+    <a href="#" @click.prevent="comName='login3'">登录</a>
+    <a href="#" @click.prevent="comName='login4'">注册</a>
+    <a href="#" @click.prevent="comName='login5'">删除</a>
+<!--    注意组件名称一定要加单引号-->
+    <transition mode="out-in">
+<!--        mode属性设置组件切换时候的方式-->
+        <component :is="comName"> </component>
+<!--    component是一个占位符  :is属性,可以用来指定要展示的组件名称-->
+    </transition>
+<!--    给组件实现动画,只需用transition包裹它就可以,然后设定动画-->
+</div>
+
+<script>
+
+    //方法一:使用v-if和v-else实现.缺陷--只能切换两个,两个以上切换无能为力
+    Vue.component('login1',{
+        template:'<h3>组件1登录</h3>'
+    })
+    Vue.component('login2',{
+        template:'<h3>组件2注册</h3>'
+    })
+
+    //方法二:用component来实现  来展示对应名称的组件
+    Vue.component('login3',{
+        template:'<h3>用component的:is属性来切换组件</h3>'
+    })
+    Vue.component('login4',{
+        template:'<h3>给:is属性一个字符串写入data中,在a标签中给字符串设置组件名称</h3>'
+    })
+    Vue.component('login5',{
+        template:'<h3>给:is属性一个字符串写入data中,在a标签中给字符串设置组件名称</h3>'
+    })
+
+
+
+    let vm = new Vue({
+        el:'#app',
+        data:{
+            flag:true,
+            comName:''  //指当前component中的 :is 绑定的组件名称
+        },
+        methods:{
+
+        }
+    });
+
+</script>
+
+</body>
+</html>

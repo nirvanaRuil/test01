@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Promise.reject</title>
+</head>
+<body>
+
+</body>
+<script src="ajax.js"></script>
+<script>
+    let he = {
+        then(resolve,reject){
+            resolve("hh");
+        }
+    };
+    Promise.resolve(he).then(value => {
+        console.log(value);
+    });
+
+    //改变单次失败状态的方法
+    new Promise((resolve, reject) => {
+        resolve("houdun")
+    }).then(value => {
+        if (value != "成功"){
+            throw new Error("fail");  //抛出异常
+            return Promise.reject("参数错误");  //直接返回也是可以的
+        } //直接返回或抛出异常来改变本次Promise的状态
+    })
+
+    .catch(error => {
+        console.log(error + "fail");
+    })  //对总体状态有影响
+    // Promise.reject("fail").then(value => {
+    //     console.log(value);
+    // }).catch(error => {
+    //     console.log(error);
+    // })
+</script>
+</html>

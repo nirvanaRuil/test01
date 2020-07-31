@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue实例中的reader方法</title>
+    <script src="../../../../Vue/vue.min.js"></script>
+</head>
+<body>
+
+<div id="app">
+<!--此时#App被login替换了-->
+
+</div>
+
+<script>
+
+    let login = {
+        template:'<h2>这是一个组件嘛</h2>'
+    }
+
+
+    let vm = new Vue({
+        el:'#app',
+        data:{
+            msg: '欢迎学习vue',
+        },
+        methods:{
+
+        },
+        // components:{
+        //     login
+        // }
+        // render:function (create) {  //create这个参数是一个方法,调用它能够把指定的组件模板渲染为HTML结构
+        //     return  create(login)
+        //     //返回的结果会替换页面中el指定的那个容器[组件化的开始,此时页面上没有#app了]
+        // }
+        render:c => c(login)
+    });
+</script>
+
+</body>
+</html>

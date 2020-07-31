@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>绘制画布</title>
+    <style>
+        #myCanvas{
+            border: #010b10 5px solid;
+            background-color: #62c2a2;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="myCanvas" width="860" height="480">
+<!--在canvas设置宽高不需要带px-->
+    </canvas>
+    <script type="text/javascript">
+        const canvas = document.getElementById("myCanvas");
+        const pen = canvas.getContext("2d");
+        //getContext() 方法返回一个用于在画布上绘图的环境。
+        pen.lineWidth = 5;//设置笔触宽度
+        pen.strokeStyle = "#ffffff";//设置笔触颜色
+        let mousePress = false;
+        let last = null;
+        function pos(event){
+            const ex = event.clientX;
+            const ey = event.clientY;
+            return{
+                x:ex,
+                y:ey
+            }
+        }
+        canvas.onmousedown = start;
+        canvas.onmousemove = draw;
+        canvas.onmouseup = finish;
+        function start(event){
+            mousePress = true;
+        }
+        function draw(event){
+            //Event 对象代表事件的状态，比如事件在其中发生的元素、键盘按键的状态、鼠标的位置、鼠标按钮的状态。事件通常与函数结合使用，函数不会在事件发生前被执行！
+            if (!mousePress) return;
+            let xy = pos(event);
+            if (last != null){
+                pen.beginPath();
+                pen.moveTo(last.x,last.y);
+                pen.lineTo(xy.x,xy.y);
+                pen.stroke();
+            //stroke() 方法会实际地绘制出通过 moveTo() 和 lineTo() 方法定义的路径。默认颜色是黑色。
+            }
+            last = xy;
+        }
+        function finish(event){
+            mousePress = false;
+            last = null;
+        }
+    </script>
+</body>
+</html>

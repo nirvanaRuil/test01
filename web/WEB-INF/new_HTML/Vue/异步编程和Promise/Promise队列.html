@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Promise队列</title>
+</head>
+<body>
+
+</body>
+<script src="ajax.js"></script>
+<script>
+    //原理
+    let promise = Promise.resolve("hou");
+    promise.then(v => {
+        return new Promise(resolve => {
+           setTimeout(() => {
+               console.log(1);
+               resolve();  //如果不写这个resolve来完成这个Promise,下一个then就永远无法执行
+           },1000)
+        })
+    }).then(v => {
+        console.log("ac");
+//本来这两个then是同时处理的,但是上一个then里又加了个新的Promise,所以只能等到上一个中的Promise完成,才能处理这个then中的数据
+    })
+
+    //使用Map封装Promise队列
+    function query(num) {
+        let promise = Promise.resolve();
+        num.map(v => {
+            promise = promise.then(_ => {  //重点在于要给promise赋值,如果不赋值的话,处理的其实是统一对let的promise进行处理,就不会有setTimeout的效果了,会一起出来
+                //现在赋值了,就是把下面new的promise返回给这个变量,然后在下一次循环走这个promise的时候得等到上一个promise的完成
+                return new Promise( resolve => {
+                    setTimeout(() => {
+                        console.log(v);
+                        resolve();
+                    },1000);
+                });
+            });
+        })
+
+    }
+    query([1,2,3,4,5]);
+
+
+    //map封装小例
+    function queee(num) {
+        let promise = Promise.resolve();
+        num.map(v => {
+            promise = promise.then(_ => {  //重点在于要给promise赋值,如果不赋值的话,处理的其实是统一对let的promise进行处理,就不会有setTimeout的效果了,会一起出来
+                return v();
+            });
+        })
+    }
+
+    function p1() {
+        return new Promise( resolve => {
+            setTimeout(() => {
+                console.log("p1");
+                resolve();
+            },1000);
+        });
+    }
+    function p2() {
+        return new Promise( resolve => {
+            setTimeout(() => {
+                console.log("p2");
+                resolve();
+            },1000);
+        });
+    }
+    queee([p1,p2]);
+
+
+    //reduce封装Promise
+    function que(num) {
+        num.reduce((promise,n) => {
+            return promise.then(_ => {  //核心原理,在then中返回promise
+                return new Promise(resolve => {
+                    setTimeout(() => {
+                        console.log(n);
+                        resolve();
+                    },1000);
+                })
+            })
+        })
+    }
+    que([1,2,3,4])
+
+    //reduce封装小例
+
+</script>
+</html>

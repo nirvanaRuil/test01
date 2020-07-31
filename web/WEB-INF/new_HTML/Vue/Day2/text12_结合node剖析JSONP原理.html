@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>结合node剖析jsonp原理</title>
+</head>
+<body>
+<script>
+    function show(data) {
+        console.log(data);
+    }
+</script>
+<script src="(这里我不会写.....)"></script>
+<!--也就是说解析执行是把上面的show方法放在这执行了?-->
+
+
+<!--这块是外部链入部分嗷-->
+<script >
+    const http = require('http')   //导入http内置模块
+    const urlModel = require('url')  //这个核心模块能够帮我们解析URL地址,从而拿到pathname query(此处指的是下面的URL)
+    const server = http.createServer()  //创建一个http服务器
+    server.on('request',function (req,res) {  //监听http服务器的request请求
+        const {pathname:url,query} = urlModel.parse(req.url,true)  //const  url = req.url改成
+        if(url ==='/getscript'){
+
+            let  data = {
+                name:'ajaj',
+                age:18,
+                gender:'女孩纸'
+            }
+
+            let scriptStr = `${query.callback}()`//拼接一个合法的js脚本,这里拼接的是一个方法的调用.不能把方法写死,把方法拿过来拼接在这能保证方法的适用性
+            // const scriptStr = 'show()'
+            res.end(scriptStr)  //res.end发送给客户端,客户端把这个字符串当做js代码去解析执行
+        }else{
+            res.end('404')
+        }
+    })
+
+
+    //指定端口号并启动服务器监听
+    server.listen(3000,function () {
+
+    })
+</script>
+</body>
+</html>

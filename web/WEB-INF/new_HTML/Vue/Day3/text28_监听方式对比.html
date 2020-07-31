@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>监听文本框和路由</title>
+    <script src="../../../../Vue/vue.min.js"></script>
+    <script src="../../../../Vue/vue-router-3.0.1.js"></script>
+</head>
+<body>
+
+<div id="app">
+    <input type="text" v-model="first" @keyup="getFull">+
+    <input type="text" v-model="last" @keyup="getFull">=
+    <input type="text" v-model="full">使用keyup的框
+    <br>
+    <input type="text" v-model="firstname">+
+    <input type="text" v-model="lastname">=
+    <input type="text" v-model="fullname">使用watch监听的框
+    <br>
+
+    <input type="text" v-model="firster">+
+    <input type="text" v-model="laster">=
+    <input type="text" v-model="fuller">使用computed
+    <br>
+
+    <router-link to="/login">登录</router-link>
+    <router-link to="/register">注册</router-link>
+    <router-view></router-view>
+
+</div>
+
+
+
+
+<script>
+
+    let login = {
+        template: '<h1>登录</h1>'
+    }
+
+    let register = {
+        template: '<h1>注册</h1>'
+    }
+
+
+    let router = new VueRouter({
+        routes:[
+            {path:'/login', component:login},
+            {path:'/register', component: register}
+        ]
+    })
+
+
+
+    let vm = new Vue({
+        el:'#app',
+        data:{
+            first:'',
+            last:'',
+            full:'',
+
+            firstname:'',
+            lastname:'',
+            fullname:'',
+
+            firster:'',
+            laster:''
+        },
+        methods:{
+            getFull(){
+                this.full = this.first + '-' + this.last
+            }
+        },
+        watch:{    //使用这个属性,可以监视data中指定数据的变化,然后触发watch中对应的function处理函数.
+            firstname:function (newVal,oldVal) {
+                this.fullname = newVal + '-' + this.lastname
+            },
+            lastname:function (newVal) {
+                this.fullname = this.firstname + '-' + newVal
+            },
+            '$router.path':function (newVal,oldVal) {  //watch很容易能监听非dom事件的改变
+               console.log(newVal + '----' + oldVal )
+                if(newVal === '/login'){
+                    console.log('欢迎进入登录界面')
+                }else if(newVal === '/register'){
+                    console.log('欢迎进入注册界面')
+                }
+            }
+        },
+        computed:{
+//在computed中,可以定义一些属性,这些属性叫做计算属性,计算属性的本质就是一个方法,只不过我们在使用这些计算属性的时候,
+//是把他们名称直接当做属性来使用的,并不会把计算属性当做方法去调用
+            'fuller':function () {
+                return this.firster + '-' + this.laster
+            }  //注意,计算属性在调用的时候,一定不要加小括号去调用,直接把他当做普通属性使用
+            //只要计算属性这个function内部所用到的任何data中的数据发生变化,就会立刻重新计算这个计算属性地方值
+            //计算求职的结果会被缓存方便下次直接使用户;如果计算属性中的任何数据都没有发生过变化,则不会对计算属性求值.
+        },
+        router
+    });
+</script>
+
+</body>
+</html>

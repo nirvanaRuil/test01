@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>动态数据的添加和删除</title>
+    <script src="../../../js/jquery-3.5.1.min.js"></script>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        #btnAddData{
+            height: 50px;
+            width: 150px;
+            background-color: #b2dba1;
+            border: lightgoldenrodyellow 2px solid;
+        }
+        .wrap{
+            height: 500px;
+            width: 600px;
+            margin: 100px auto;
+            border: #2b542c 2px solid;
+            background-color: #9acfea;
+        }
+        table{
+            height:280px;
+            width: 480px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        #hideTitle{
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+<!--demo需求:
+    1.点击添加数据按钮,显示添加面板和遮罩层;
+    2.点击添加面板里的关闭按钮,隐藏添加面板和遮罩层;
+    3.点击添加面板里的添加按钮,会把输入的内容形成一个tr,这个tr添加到tbody中;
+    4.点击delete的a标签,删除对应的tr-->
+ <div class="wrap">
+     <div>
+         <input type="button" value="添加数据" id="btnAddData" class="btnAdd">
+     </div>
+     <table>
+         <thead>
+         <tr>
+             <th>课程名称</th>
+             <th>所属学院</th>
+             <th>已学会</th>
+         </tr>
+         </thead>
+         <tbody id="tb">
+         <tr>
+             <td>javascript</td>
+             <td>传智播客-前端与移动开发学院</td>
+             <td><a href="javascript:;" class="get"></a></td>
+         </tr>
+         <tr>
+             <td>css</td>
+             <td>传智播客-前端与移动开发学院</td>
+             <td><a href="javascript:;" class="get"></a></td>
+         </tr>
+         <tr>
+             <td>html</td>
+             <td>传智播客-前端与移动开发学院</td>
+             <td><a href="javascript:;" class="get"></a></td>
+         </tr>
+         </tbody>
+     </table>
+ </div>
+<!--遮罩层-->
+<div id="mask" class="mask"></div>
+<!--添加数据的表单-->
+<div id="formAdd" class="formAdd">
+    <div class="formTitle">
+        <span>添加数据</span>
+        <div id="hideTitle">×</div>
+    </div>
+    <div class="formItem">
+        <label class="lb" for="txtLesson">课程名称:</label>
+        <input type="text" class="txt" id="txtLesson" placeholder="请输入课程名称">
+    </div>
+    <div class="formItem">
+        <label class="lb" for="txtPlace">所属学院</label>
+        <input type="text" class="txt" id="txtPlace" value="传智播客-前端与移动开发学院">
+    </div>
+    <div class="formSubmit">
+        <input type="button" value="添加" id="btnAdd">
+    </div>
+</div>
+<script>
+    $(function () {
+        $('#btnAddData').click(function () {
+            $('#formAdd,#mask').show();
+        });
+        $(function () {
+            $('#hideTitle').click(function () {
+                $('#formAdd,#mask').hide();
+            });
+        });
+    });
+</script>
+</body>
+</html>

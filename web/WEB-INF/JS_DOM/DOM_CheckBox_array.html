@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>复选框的全选和取消全选</title>
+    <script src="../../js/jquery-3.5.1.min.js"></script>
+</head>
+<body>
+<!--原生js-->
+<script type="text/javascript">
+    window.onload = function () {
+        let firstChk = document.getElementById('firstChk');
+        let interest = document.getElementsByName('interest');
+        let all = interest.length;
+        firstChk.onclick = function () {
+            for (let i = 0; i < all; i++) {
+                interest[i].checked = firstChk.checked;
+            }  //checked只有两个值 true/false   checked 属性设置或返回checkbox是否应被选中
+        }
+
+        for (let i = 0; i <interest.length ; i++) {
+            interest[i].onclick = check;
+        }
+        function check () {
+            for (let i = 0;i < all;i++){
+                if(interest[i].checked != true){
+                    firstChk.checked = false;
+                    break;  //跳出循环
+                }
+                firstChk.checked = true;
+            }
+        }
+    }
+</script>
+
+<!-- jQuery-->
+<script>
+    $(function () {
+        $('#firstChk').click(function () {
+            let checkedValue = $(this).prop('checked'); //获取这个复选框的checked值
+            $('.interest').prop('checked',checkedValue); //让多选框跟着复选框走
+        });
+        $('.interest').click(function () {
+            let lang = $('.interest').length; //获取到多选框个数
+            let select = $('.interest:checked').length; //获取选中的多选框个数
+            if (lang == select){
+                $('#firstChk').prop('checked',lang == select);
+            //  $('#firstChk').prop('checked',true);
+            // }else {
+            //  $('#firstChk').prop('checked',false);
+            }
+        });
+    });
+</script>
+<input type="checkbox" id="firstChk"/><br>
+<input type="checkbox"  name="interest" value="song" class="interest" />唱歌<br>
+<input type="checkbox"  name="interest" value="dance" class="interest" />跳舞<br>
+<input type="checkbox" name="interest" value="speaking" class="interest" />演讲
+</body>
+</html>

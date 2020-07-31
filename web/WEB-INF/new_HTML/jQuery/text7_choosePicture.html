@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>选图片显示大图</title>
+    <script src="../../../js/jquery-3.5.1.min.js"></script>
+    <style>
+        li{
+            float: left;
+            margin: 20px;
+            list-style-type: none;
+        }
+    </style>
+</head>
+<body>
+<ul>
+    <li><a href="../picture/mofang/a1.png" title="我老婆A">
+        <img src="../picture/mofang/a1.png" height="150" width="200" />
+    </a></li>
+    <li><a href="../picture/mofang/a4.png" title="我老婆B">
+        <img src="../picture/mofang/a4.png" height="150" width="200" />
+    </a></li>
+    <li><a href="../picture/mofang/a5.png" title="我老婆C">
+        <img src="../picture/mofang/a5.png" height="150" width="200" alt="我老婆3"/>
+    </a></li>
+    <li><a href="../picture/mofang/缘结神.png" title="我老婆D">
+        <img src="../picture/mofang/缘结神.png" height="150" width="200" alt="我老婆4"/>
+    </a></li>
+</ul>
+<div style="clear: both"></div>
+<img id="img" src="../picture/mofang/a0.png" alt="" height="620" width="928">
+<p id="des">选择一个图片</p>
+<script>
+    $(function () {
+        $('a').click(function () {
+            let value = $(this).attr('href');
+            let content = $(this).attr('title');
+            $('#img').attr('src',value);
+            $('#des').text(content);
+            return false; //阻止a标签的跳转 target = ""
+        });
+    });// 需求1.给图片a标签设置一个单击事件,让img修改src为对应大图href路径,让p标签的文本设置为对应文字
+</script>
+</body>
+</html>

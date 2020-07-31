@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>开始学习Vue中的动画</title>
+    <script src="../../../../Vue/vue.min.js"></script>
+    <link rel="stylesheet" href="../../../../css/animate.css">
+    <style>
+        .v-enter,
+        .v-leave-to{
+            opacity: 0.4;
+            transform: translateX(300px);
+            /*    动画进入之前的起始状态和离开之后的终止状态*/
+        }
+
+        .v-enter-active,
+        .v-leave-active{
+            transition: all 0.4s ease;
+        /*    入场动画的时间段和离场动画的时间段*/
+        }
+    </style>
+
+</head>
+<body>
+
+<div id="app">
+    <input type="button" value="更改" @click="flog = !flog">
+    <transition>
+        <h3 v-if="flog">哎呦来个动画吧</h3>
+    </transition>
+<!--    把需要被动画控制的元素用transition包裹起来,官方提供-->
+<!--    给元素的transition标签里加name="自定义前缀",来与v-model区分,区分不同组之间的动画.-->
+    <transition enter-active-class=" bounceIn" enter-active-class="bounceOut" :duration="{enter:200,leave:400}">
+<!--        使用duration="毫秒值"设置入场/离场时动画的时长,可以一起设置也可以分开设置-->
+        <h3 v-if="flog" class="animated">用animated来看一看动画</h3>
+<!--        引用animate动画样式前必须都加上基本类animated,类可以在元素上写,也可以在transition上写-->
+    </transition>
+</div>
+
+<script>
+    let vm = new Vue({
+        el:'#app',
+        data:{
+            flog:false
+        },
+        methods:{
+
+        }
+    });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>使用队列渲染数据</title>
+</head>
+<body>
+
+</body>
+<script src="ajax.js"></script>
+<script>
+    class User {
+        ajax(user){
+            let url = `http://localhost:8888/php/user.php`
+            return new Promise((resolve, reject) => {
+                loading.style.display = 'block'; //让样式显示出来
+                if(!/^http/.test(url)){
+                    throw new ParamError("请求地址格式错误")
+                } //如果不是http开头就报错ParamError类"请求地址格式错误"
+                let xhr = new XMLHttpRequest();
+                xhr.open("GET",`${url}?name=${user}`);
+                xhr.send();
+                xhr.onload = function () {  //这里开始是异步网络请求,所以 else if下面要用reject同步,不能直接用throw new
+                    if (this.status == 200){
+                        resolve(JSON.parse(this.response));
+                    }else if (this.status == 404){
+                        reject(new HttpError("用户不存在"));  //必须同步使用,异步请求不可以
+                    } else {
+                        reject("加载失败");
+                    }
+                }
+                xhr.onerror = function () {
+                    reject(this);  //发生的其他错误
+                }  //onerror事件会在文档或图像加载过程中发生错误时被触发。
+            });
+        }  //获取到数据
+
+        //渲染到页面
+        render(users){
+            users.reduce((promise,user) => {
+                return promise.then(_ => {
+                    return this.ajax(user);
+                }).then(user => {
+                    return this.view(user)
+                })
+            },Promise.resolve())
+        }
+        view(user){
+            return new Promise(resolve => {
+                console.log(user);
+                let h2 = document.createElement('h2')
+                h2.innerHTML = user.name
+                document.body.appendChild(h2)  //已经添加完毕
+                resolve()
+            })
+        }
+    }
+    new User().render(["后盾人","向军"]);
+    //使用队列渲染数据,可以简化操作.比如说你想批量搞个什么事情,就可以采用队列
+</script>
+</html>

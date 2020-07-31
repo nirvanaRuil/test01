@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>创建组件的三种方式</title>
+    <script src="../../../../Vue/vue.min.js"></script>
+</head>
+<body>
+
+<div id="app">
+<!--如果要使用组件,直接把组件的名称以HTML标签的形式引入到页面中,在引入的时候要把驼峰式命名改为'-' -->
+    <my-com1></my-com1>
+    <my-com2></my-com2>
+    <my-com3></my-com3>
+</div>
+
+<div id="app2">
+    <my-com3></my-com3>
+    <login></login>
+    <login2></login2>
+
+    <my-com4></my-com4>
+
+<!--  这个例子是学习组件中的data  -->
+    <counter></counter>
+    <hr>
+    <counter></counter>
+    <hr>
+    <counter></counter>
+<!--这样的话如果不在function中定义,所有的counter组件都会同时引用同一个methods-->
+
+</div>
+<!--全局组件在哪个VM中都可以-->
+
+
+
+
+<!--在被控制的#App外使用template元素定义组件的模板结构-->
+<template id="tmp1">
+    <div>
+        <h3>这是通过template元素,在外部定义的组件结构</h3>
+        <h4>还是不能忘记只能有一个根元素这件事情</h4>
+    </div>
+</template>
+
+
+<template id="log">
+    <h4>在外部用template定义私有组件模板结构</h4>
+</template>
+
+<template id="count1">
+    <div>
+        <input type="button" value="+1" @click="increment">
+        <h3>{{count}}</h3>
+    </div>
+</template>
+
+<script>
+    //注意:无论是哪种方式创建的组件,组件的template属性指向的模板内容必须有且只有一个根元素
+
+    //1.1使用Vue.extend来创建全局的Vue组件,返回一个组件的模板对象com1
+    let com1 = Vue.extend({
+        template:'<h3>这是用Vue.extend创建的组件</h3>'  //通过template属性指定了组件要展示的HTML结构.
+    })
+    //1.2使用Vue.component('组件名称',创建出来的组件模板对象)
+    Vue.component('myCom1',com1)
+
+    //合并---参数一:组件名称,将来引用的时候就是标签名称;参数二:Vue.extend创建的组件,其中template就是将要展示的内容
+    Vue.component('myCom1',Vue.extend({
+        template:'<h3>这是用Vue.extend创建的组件</h3>'
+    }))
+
+    //方法二:
+    Vue.component('myCom2',{
+        template:'<h3>这是直接使用 Vue.component创建的组件</h3>'
+    })
+
+    //方法三:在被控制的区域外使用template元素定义组件的模板结构
+    Vue.component('myCom3',{
+        template:'#tmp1'
+    })
+
+    //这个例子是学习组件中的data
+    Vue.component('myCom4',{
+        template:'<h3>这个是看组件中data的---{{msg}}</h3>',
+        data:function () {
+            //组件中的data不是对象,是函数,而且必须要有返回对象return{}
+            //使用方式和实例中的data使用方式完全相同
+            return {
+                //template中可以引入return中的数据
+                msg:'这个是组件中的数据嗷'
+            }
+        }
+    })
+
+//这个例子解释为何data中必须要有function?
+//这是一个计数器组件 身上有个计数器按钮,每当点一下按钮,就让data中的count值+1
+//     let dataObj = {count:0}  //这样也可以,但是在这定义count会使所有应用这个组件的元素同步操作,不会分开操作
+    Vue.component('counter',{
+        template:'#count1',
+        data:function () {
+            return {count:0}
+        },
+        methods:{
+            increment(){
+                this.count++
+            }
+        }
+    })
+
+
+
+    let vm = new Vue({
+        el:'#app',
+        data:{
+            msg: '欢迎学习vue',
+        },
+        methods:{
+
+        }
+    });
+
+
+    let vm2 = new Vue({
+        el:'#app2',
+        data:{
+            msg: '欢迎学习vue',
+        },
+        methods:{
+
+        },
+        components:{  //定义内部私有组件
+            login:{
+                template:'<h2>这是自定义的私有login组件</h2>'
+            },
+            login2:{
+                template:'#log'
+            }
+        }
+    });
+
+</script>
+
+</body>
+</html>

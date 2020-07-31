@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>路由的基本使用</title>
+    <script src="../../../../Vue/vue.min.js"></script>
+    <script src="../../../../Vue/vue-router-3.0.1.js"></script>
+    <style>
+        .xiugai{
+            color: #9acfea;
+            font-style: italic;
+            font-size: 17px;
+        }
+    /*    实现路由高亮*/
+        .v-enter,
+        .v-leave-to{
+            opacity: 40%;
+            transform: translateX(30px);
+        }
+        .v-enter-active,
+        .v-leave-active{
+            transition: all 0.3s ease;
+        }
+
+    </style>
+</head>
+<body>
+
+<div id="app">
+
+<!--    <a href="#/login">登录</a>-->
+<!--    <a href="#/register">注册</a>-->
+    <router-link to="/login">登录</router-link>
+    <router-link to="/register">注册</router-link>
+<!--    router-link默认渲染a标签,如果要改变渲染标签,用tag=""  默认有一个click事件,默认class类为.router-link-active-->
+
+    <transition mode="out-in">
+        <router-view></router-view>
+    </transition>
+<!--这是Vue-router提供的元素,专门用来当做占位符,将来路由规则匹配的文件将会展示到这个router-view中去-->
+
+</div>
+
+<script>
+    let login = {
+        template:'<h1>这个路由就是给组件外面再加了一层URL地址?</h1>'
+    }
+    let register = {
+        template:'<h1>注册组件,和加载组件切换的</h1>'
+    }
+
+
+
+    //创建一个路由对象,当导入包之后,在window全局对象中,就有了一个路由的构造函数,叫做VueRouter
+    //在new路由对象的时候,可以为构造函数,传递一个配置对象.
+    let routerObj = new VueRouter({
+        routes:[  //这个route表示路由匹配规则
+            {path:'/',redirect:'/login'} ,  //表示默认展示login
+            {path:'/login',component:login} , //这个里面必须放组件模板对象,不能是组件的引用名称
+            {path:'/register',component:register}
+        ],
+        linkActiveClass:'xiugai'  //修改默认路由高亮class值
+    })
+    //每个路由规则都是一个对象,这个规则对象身上有两个必须的属性:1--path,表示监听,那个路由器链接地址;
+    // 2--component,表示如果路由是前面匹配到的path,则展示component属性对应的那个组件.
+
+
+    let vm = new Vue({
+        el:'#app',
+        data:{
+            msg: '欢迎学习vue',
+        },
+        methods:{
+
+        },
+        router:routerObj  //将路由规则对象注册到vm实例上,用来监听URL地址的变化,展示对应组件
+    });
+</script>
+
+</body>
+</html>

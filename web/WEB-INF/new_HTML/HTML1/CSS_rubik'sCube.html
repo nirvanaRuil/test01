@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>魔方</title>
+    <style type="text/css">
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        #container{
+            width: 300px;
+            height: 300px;
+            margin: 150px auto;
+            perspective: 2000px;
+        }
+        #box{
+            width: 300px;
+            height: 300px;
+            transform-style: preserve-3d;
+        /*在父容器定义3d*/
+            box-sizing: border-box;
+            animation: all 4s linear infinite;
+        }
+        /*transparent用来指定全透明色彩*/
+        @keyframes all {
+            0%{
+                transform: rotateX(0deg) rotateY(0deg);
+            }
+            100%{
+                transform: rotateX(360deg) rotateY(360deg);
+            }
+        }
+        .boxPage{
+            height: 300px;
+            width: 300px;
+            position: absolute;
+            /*    给六个面位置初始化*/
+            transform-style: preserve-3d;
+        /* 是每个面九个小块的父元素,给它定义3d*/
+        }
+        /*以下是定位六个面的位置*/
+        .top{
+            transform: translateZ(150px);
+        }
+        .bottom{
+            transform: translateZ(-150px) rotateX(180deg);
+        }
+        .left{
+            transform: translateX(-150px) rotateY(-90deg);
+        }
+        .right{
+            transform: translateX(150px) rotateY(90deg);
+        }
+        .front{
+            transform: translateY(150px) rotateX(-90deg);
+        }
+        .behind{
+            transform: translateY(-150px) rotateX(90deg);
+        }
+        /*以下是给六个面上的九个小块加动画,先在boxPage给九个小块设置3d*/
+        /*.boxPage div:nth-child(1){*/
+        /*    animation: div 4s ease-in infinite;*/
+        /*}*/
+        /*.boxPage div:nth-child(2){*/
+
+        /*    animation: div 4s ease-in infinite .1s;*/
+        /*}*/
+        /*.boxPage div:nth-child(3){*/
+        /*    animation: div 4s ease-in infinite .2s;*/
+        /*}*/
+        /*.boxPage div:nth-child(4){*/
+        /*    animation: div 4s ease-in infinite .3s;*/
+        /*}*/
+        /*.boxPage div:nth-child(5){*/
+        /*    animation: div 4s ease-in infinite .4s;*/
+        /*}*/
+        /*.boxPage div:nth-child(6){*/
+        /*    animation: div 4s ease-in infinite .5s;*/
+        /*}*/
+        /*.boxPage div:nth-child(7){*/
+        /*    animation: div 4s ease-in infinite .6s;*/
+        /*}*/
+        /*.boxPage div:nth-child(8){*/
+        /*    animation: div 4s ease-in infinite .7s;*/
+        /*}*/
+        /*.boxPage div:nth-child(9){*/
+        /*    animation: div 4s ease-in infinite .8s;*/
+        /*}*/
+        /*@keyframes div {*/
+        /*    0%{*/
+        /*        transform: translateZ(0px) rotateZ(0deg) scale(1);*/
+        /*    }*/
+        /*    30%{*/
+        /*        transform: translateZ(200px) rotateZ(720deg) scale(0.5);*/
+        /*    }*/
+        /*    80%{*/
+        /*        transform: translateZ(200px) rotateZ(720deg) scale(0.5);*/
+        /*    }*/
+        /*    100%{*/
+        /*        transform: translateZ(0px) rotateZ(0deg) scale(1);*/
+        /*    }*/
+        /*}*/
+    </style>
+</head>
+<body>
+    <div id="container">  <!-- 总体框架 -->
+        <div id="box">    <!-- 六个面的父元素框架 -->
+            <!-- 每个面有相同有不同,设置两个class值 -->
+            <div class = "boxPage top"></div>
+            <div class = "boxPage bottom"></div>
+            <div class = "boxPage left"></div>
+            <div class = "boxPage right"></div>
+            <div class = "boxPage front"></div>
+            <div class = "boxPage behind"></div>
+        </div>
+    </div>
+    <script type = "text/javascript">
+        const all = document.querySelectorAll(".boxPage");
+        //    遍历六个面中的每一个面
+        for (let n =0;n<all.length;n++) {
+            for (let h = 0;h< 3;h++) {  //遍历行
+                for (let i = 0; i <3; i++) {//遍历列
+                const divs = document.createElement("div");//创建元素,创建好的元素必须加到想要的位置去
+                divs.style.cssText = "width:100px;height:100px;border:1px solid #FFF;" +
+                    "box-sizing:border-box;position:absolute;background-image:url(picture/mofang/a"+n+".png);background-size: 300px 300px;" ;
+                //box-sizing作用是设置了边框后不让总宽高变化
+                all[n].appendChild(divs);  //把元素加到想要的位置上去
+                    divs.style.left = h*100+"px";
+                    divs.style.top = i*100+"px";  //面内元素距离顶部距离,因为每个元素都是100px*100px,所以每个元素距离顶部和左边的距离都是前面所有元素的长/宽的和
+                    divs.style.backgroundPositionX = -h*100+"px";   //设置背景图像的起始位置,每幅图显示的都是左上角,要平移位置
+                    divs.style.backgroundPositionY = -i*100+"px";
+                }
+            }
+        }
+    </script>
+</body>
+</html>

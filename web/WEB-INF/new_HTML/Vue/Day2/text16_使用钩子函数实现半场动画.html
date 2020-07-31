@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>使用钩子函数实现半场动画</title>
+    <script src="../../../../Vue/vue.min.js"></script>
+    <style>
+        .ball{
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: mediumvioletred;
+        }
+    </style>
+</head>
+<body>
+
+<div id="app">
+    <input type="button" value="快到碗里来" @click="flag = !flag">
+    <transition
+      @before-enter="beforeEnter"
+      @enter="enter"
+      @after-enter="afterEnter">
+<!--  在transition中声明钩子,然后在methods中定义这几个函数-->
+        <div class="ball" v-if="flag"></div>
+    </transition>
+</div>
+
+<script>
+    let vm = new Vue({
+        el:'#app',
+        data:{
+            flag:false,
+        },
+        methods:{
+            //注意:动画钩子函数的第一个参数el,表示要执行动画的那个dom元素,是个原生的js对象.
+            //可以认为el是通过document.getElementById("")来获取到原生的js DOM对象
+            beforeEnter(el){
+//表示动画入场之前,动画尚未开始,可以在这个里面设置起始样式
+                el.style.transform = 'translate(0,0)'  //起始位设置
+            },
+            enter(el,done){
+//表示动画开始之后的样式,这里可以设置小球完成动画之后的结束状态
+                el.offsetWidth //没有实际作用,但是如果不写出不来没动画效果,可以认为这句话会强制动画刷新  加offset
+                el.style.transform = 'translate(300px,0px)'
+                el.style.transition = 'all 1s ease'
+
+                done()//这里的done其实就是afterEnter函数,这句话可以使动画在结束状态之后立即执行动画完成之后的函数
+                //当只用 JavaScript 过渡的时候，在 enter 和 leave 中必须使用 done 进行回调。否则，它们将被同步调用，过渡会立即完成。
+            },
+            afterEnter(el){
+//动画完成之后会调用
+                this.flag = !this.flag
+    }
+        }
+    });
+</script>
+
+</body>
+</html>

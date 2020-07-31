@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../../../js/jquery-3.5.1.min.js"></script>
+    <style>
+        th{
+            height: 50px;
+            width: 200px;
+            border: #0f0f0f 2px solid;
+        }
+    </style>
+</head>
+<body>
+<button id="one">按钮1</button>
+<br>
+<thead>
+    <table>
+        <tr>
+            <th>名称</th>
+            <th>地址</th>
+            <th>注释</th>
+        </tr>
+    </table>
+</thead>
+<tbody id="bodyData">
+
+</tbody>
+<script>
+    $(function () {
+        var data = [{
+            name:'小恐龙',
+            url:'http://www.tencent.cn',
+            type:'是一条恐龙'
+        },{
+            name:'毛叽叽',
+            url:'http://www.baidu.cn',
+            type:'是一条白毛狗'
+            },{
+            name:'皮崽子',
+            url:'http://www.hao123.cn',
+            type:'万恶的熊孩子'
+        }]
+
+//    遍历数组,有多少个元素就有多少个tr,有多少个kv就有多少个td
+//    需求:点击获取数据按钮,根据data这个数组里面的数据来给tbody追加tr.
+//    data这个数组,有多少个元素,就生成多少个tr,每一个元素又是一个对象,所以对象有多少个kv对就有多少个td
+        $('#one').click(function () {
+            // let list = [];
+            // for (let i = 0; i < data.length; i++) {  //遍历数组用itar
+            //     list.push('<tr>');
+            //     for (const dataKey in data[i]) {  //遍历对象用itin
+            //         list.push('<td>');
+            //         list.push(data[i][dataKey]); //对着key值找value
+            //         list.push('</td>');
+            //     }
+            //     list.push('</tr>');  //生成tr
+            //
+            //     // $('#bodyData').html(list.join(''));
+            //  }
+            // console.log(list);
+            //
+            // //    因为用html()会覆盖原有内容,所以必须一次遍历完
+
+
+            for (let i = 0; i < data.length; i++){
+                let $tr = $("<tr><td>"+data[i]['name']+"</td><td>"+data[i]['url']+"</td><td>"+data[i]['type']+"</td></tr>"); //用$()创建元素
+                $('#bodyData').append($tr); //用append添加
+            }
+        });
+//气死我了为什么不对!!!!艹
+    });
+</script>
+</body>
+</html>

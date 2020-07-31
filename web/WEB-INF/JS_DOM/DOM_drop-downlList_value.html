@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>获取下拉列表中的选中项value</title>
+</head>
+<body>
+    <script type="text/javascript">
+        window.document
+    </script>
+     <!--<select onchange="alert(this.value)">     onchange表示 在域的内容改变时发生。-->
+        <!-- select元素可以创建单选或多选菜单；option元素位于select元素内部，定义下拉列表中的一个选项/条目 -->
+        <option value ="">--请选择省份--</option>
+        <option value ="sx">陕西省</option>
+        <option value ="hb">湖北省</option>
+        <option value ="hn" >湖南省</option>
+        <option value ="jx">江西省</option>
+    </select>
+<!--目的是获取下拉列表的value元素,在这个value元素里嵌套新的下拉列表-->
+<!--省份和市区的关系是一对多
+    省份表t_province
+    id      pcode     pname
+--------------------------------
+     1       sx        陕西省
+     2       hb        湖北省
+     3       hn        湖南省
+     4       jx        江西省
+
+ pcode:创建预解译P码文件
+
+     市区表t_city
+    id       ccode      cname      pcode
+    1         sx1       西安市       sx
+    2         sx2       咸阳市       sx
+    3         sx3       宝鸡市       sx
+    4         sx4       商洛市       sx
+    5         sx5       榆林市       sx
+    6         sx6       延安市       sx
+
+    假设前端用户选择的是陕西省,name必须获取到陕西省的pcode,然后将pcode发送提交给服务器,服务器底层执行一条SQL语句:
+    select * form t_city where pcode='sx';
+    返回一个List集合,List<city> citylist;
+
+    citylist响应浏览器,浏览器再解析citylist集合转换成一个新的下拉列表.
+
+     -->
+</body>
+</html>

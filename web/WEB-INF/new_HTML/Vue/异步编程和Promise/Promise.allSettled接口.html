@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Promise.allSettled</title>
+</head>
+<body>
+
+</body>
+<script src="ajax.js"></script>
+<script>
+    //原理
+    const p1 = new Promise((resolve, reject) => {
+        resolve("resolved");
+    });
+    const p2 = new Promise((resolve, reject) => {
+        reject("rejected");
+    });
+    Promise.allSettled([p1,p2]).then(results => {
+        console.log(results);
+    })  //这个接口可以不是都是已解决状态,可以是拒绝状态
+
+
+    //例子
+    const promise = ['后盾人','li'].map(name => {
+        return ajax(`http://localhost:8888/php?name=${name}`)
+    });
+    Promise.allSettled(promise).then(value => {
+        console.log(value);   //即使用户信息"li"不存在, 也不影响,照样返回数据
+        let users = value.filter(user => {  //过滤
+            return user.status == "fulfilled";  //返回这个状态的,没有就不要了
+        });
+        console.log(users);  //返回成功接入的用户的值  这个数据就可以渲染到页面什么的啦
+    })
+</script>
+</html>

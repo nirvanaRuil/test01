@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>异步加载图片</title>
+</head>
+<body>
+
+</body>
+<script>
+    function loadImg(src,resolve,reject) {
+        let image = new Image()
+        image.src = src;
+        image.onload = () => {
+            resolve(image)  //从body中接收
+        };
+        image.onerror = reject;  //加载成功和失败
+    }
+    loadImg('',image =>{
+        document.body.appendChild(image);
+    }, () =>{
+        console.log('加载失败');
+    })
+    console.log("11111")
+
+
+    //微任务队列
+    //padding 准备阶段
+    //resolved 成功状态
+    //rejected 拒绝状态
+    new Promise((resolve, reject) => {
+        resolve('操作成功');
+        reject('拒绝状态');
+    }).then(
+        value => {
+            console.log("成功业务处理");
+        },
+        reason => {
+            console.log("拒绝的业务处理");
+        })
+
+//任务的前后顺序
+   setTimeout(() => {
+       console.log("setTimeout");
+   },0);  //这是宏任务
+    new Promise((resolve) => {  //promise下面整个都是同步任务
+        resolve('操作成功'); //通知.then到微任务队列中
+        console.log("同步一号");  //这是同步任务
+    }).then(value => console.log("成功业务处理")); //这是微任务  //此时这里的.then不会同步执行,他需要等到接收到通知之后才会加入到微任务队列
+    console.log("吼吼吼二号");  //这两个输出是同步执行  //这是同步任务
+
+
+    let p1 = new Promise((resolve, reject) => {
+        setTimeout(() => {
+            resolve('成功');
+        },2000);
+    });
+    new Promise((resolve,reject) => {
+        resolve("fulfilled");  //状态不可逆
+//    resolve(p1);  //返回的是一个promise
+
+//    setTimeout(() => {
+//       resolve("fulfilled");
+//    },2000);  /产生微任务,如果这个状态产生时间较长,微任务出现的时间也会比较晚
+    }).then(
+        msg => {
+            console.log(msg);  //返回的p1的状态,也就是当时promise的状态.
+        },
+        error => {
+            console.log("error" + error)  //输出:error拒绝
+        }
+    );
+    console.log("qweer");
+
+
+    //Promise的then方法
+    let p1 = new Promise((resolve, reject) => {
+        resolve("fulfilled");
+    });
+    let p2 = p1.then(
+        value => console.log(value),
+        reason => console.log(reason)
+    );
+    console.log(p1);
+    console.log(p2);
+
+    setTimeout( () => {
+        console.log(p1);
+        console.log(p2);
+    })
+
+
+    //使用Promise封装Ajax异步请求
+    function ajax(url) {
+        return new Promise((resolve, reject) => {
+                let xhr = new XMLHttpRequest();
+                xhr.open("GET",url);
+                xhr.send();
+                xhr.onload = function () {
+                    if (this.status == 200){
+                        resolve(JSON.parse(this.response));
+                    }else {
+                        reject("加载失败");
+                    }
+                }
+                xhr.onerror = function () {
+                    reject(this);  //发生的其他错误
+                }  //onerror 事件会在文档或图像加载过程中发生错误时被触发。
+        });
+    }
+    // request().then(value => console.log(value));
+
+    //这是后台请求
+    let url = `http://localhost:8888/php`;
+    ajax(`${url}/user.php?name=nnnn`).then(value => {
+        console.log(value);  //使用then来接收到请求返回来的值
+    },
+    reason => {
+        console.log(reason);
+    });
+
+    let url = `http://localhost:8888/php`;
+    ajax(`${url}/user.php?name=nnnn`).then(user => {
+        return ajax(`${url}/houdunren.php?id=${user.id}`);
+    }).then(lessons => {
+        console.log(lessons);
+    });
+
+    //结构优化之后
+    let url = `http://localhost:8888/php`;
+    ajax(`${url}/user.php?name=nnnn`)
+        .then(user => ajax(`${url}/houdunren.php?id=${user.id}`))
+        .then(lessons => console.log(lessons))
+</script>
+</html>
+
+
+
+
+
+
+
+

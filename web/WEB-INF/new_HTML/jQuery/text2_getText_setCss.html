@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>设置获取文本内容,设置获取css</title>
+    <script src="../../../js/jquery-3.5.1.min.js"></script>
+    <style>
+        #div1{
+            height: 200px;
+            background-color: #62c2a2;
+            border: yellow 2px solid;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<input type="button" value="获取" id="get">
+<input type="button" value="设置" id="set">
+<div id="div1" style="width: 200px">我是一个div1
+    <p>我是一个p1标签</p><span>是span1</span></div>
+<div id="div2" style="width: 300px">我是一个div2
+    <p>我是一个p2标签</p><span>是span2</span></div>
+<div id="div3" style="width: 400px">我是一个div2
+    <p>我是一个p2标签</p><span>是span2</span></div>
+<script>
+    $(function () {   //text()获取设置文本,不给参数
+        $('#get').click(function () {
+            $('#div1').text();//console.log($('#div1').text()) ;
+        });
+        $('#set').click(function () {
+            $("div2").text('新设置的文本会覆盖原有文本,链接也不会被解析');
+        });
+        $("div").text('包含多个dom元素的jQuery对象通过text()方法,会把所有元素都设置上'); //隐式迭代.偷偷遍历了
+    });
+
+    $(function () {  //获取元素样式,将参数设置为要获取的样式名.
+        $('#get').click(function () {
+            console.log($('#div1').css('width'));  //不能在一个css中获取多个样式
+            console.log($('#div1').css('backgroundColor')); //IE中获取边框样式需给准确边框
+        });
+        //获取样式操作只会返回第一个元素对应的样式值
+
+        //设置单样式
+        $('#set').click(function () {
+            $('#div1').css('width','400px');
+            $('#div1').css('height',200); //带引号加px,不带引号不加px
+            $('#div1').css('backgroundColor','blue');
+        });
+
+        //设置多样式
+        $('#set').click(function () {
+            $('#div1').css({
+                'width': '300px',
+                'height': '300px',
+                'backgroundColor': "green",
+                'border': '10px solid pink'
+            });
+        });
+
+        //给div整体设置样式
+        //隐式迭代
+        $('#set').click(function () {
+            $('div').css({
+                width:300,
+                'height':'100px',
+                backgroundColor: "pink",
+                'border': '10px solid green',
+                marginTop:10
+            });
+        });
+
+    });
+
+
+</script>
+<!--//过滤选择器-->
+<ul>  <!--简写式:ul>li{我是第$个li标签}*5-->
+    <li>我是第1个li标签</li>
+    <li>我是第2个li标签</li>
+    <li>我是第3个li标签</li>
+    <li>我是第4个li标签</li>
+    <li>我是第5个li标签</li>
+</ul>
+<script>
+    $(function () {
+        $('li:odd').css('backgroundColor','skyblue');
+        $('li:even').css('backgroundColor','pink');
+        $('li:eq(0)').css('backgroundColor','red');
+        $('li:eq(4)').css('backgroundColor','red');  //找到首尾行变为红色
+    });
+
+</script>
+
+
+</body>
+</html>

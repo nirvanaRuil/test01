@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>v-if和v-show</title>
+    <script src="../../../../Vue/vue.min.js"></script>
+</head>
+<body>
+
+<div id="app">
+    <input type="button" value="切切切" @click="flag=!flag">
+<!--    <input type="button" value="切切切" @click="toggle">  如果事件方法中只有一句话时,可以直接写在事件中,不需要再在methods中写方法-->
+    <h3 v-if="flag">这是用v-if控制的元素</h3>
+    <h3 v-show="flag">这是用v-show控制的元素</h3>
+<!--    作用:根据条件来展示元素 true/false
+        v-if特点:每次都会重新删除或者创建元素,有较高的切换性能消耗
+        v-show特点:每次不会进行dom的删除和创建操作,只是切换了元素的display:none样式,有较高的初始渲染消耗
+        适用场景:如果有元素频繁切换,用v-show不要用v-if;如果元素几乎永远不会被显示出来就用v-if.-->
+</div>
+
+<script>
+    let vm = new Vue({
+        el:'#app',
+        data:{
+            flag:true,
+        },
+        methods:{
+            // toggle(){
+            //    this.flag = !this.flag   当事件方法只有一句话时,直接写在事件中
+            // }
+        }
+    });
+</script>
+
+</body>
+</html>

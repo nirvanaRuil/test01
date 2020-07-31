@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Promise.resolve</title>
+</head>
+<body>
+
+</body>
+<script src="ajax.js"></script>
+<script>
+    function hd() {}
+    hd.site = "houdunren.com";
+    console.dir(hd);
+    function query(name) {
+        const cache = query.cache || (query.cache = new Map());
+        if (cache.has(name)){
+            console.log("走缓存了");
+            return Promise.resolve(cache.get(name))
+        }
+        return ajax(`http://localhost:8888/php?name=${name}`)
+            .then(user => {
+                cache.set(name,user);
+                console.log("没走缓存");
+                return user;
+            })
+    }
+
+    //请求
+    setTimeout(() => {
+        query('后盾人').then(user => {
+            console.log(user);
+        })
+    },1000)
+
+
+</script>
+</html>

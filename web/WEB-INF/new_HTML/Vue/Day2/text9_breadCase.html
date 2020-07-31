@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>品牌列表案例</title>
+    <script src="../../../../Vue/vue.min.js"></script>
+    <link rel="stylesheet" href="../../../../css/bootstrap.css">
+</head>
+<body>
+
+<div id="app">
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title">添加品牌</h3>
+        </div>
+        <div class="panel-body form-inline">
+            <!--        加上form-inline后,行内文本框会并排放置,不会再单独占用一行-->
+            <label>
+                Id:
+                <input type="text" class="form-control" v-model="id">
+            </label>
+            <label>
+                Name:
+                <input type="text" class="form-control" v-model="name" @keyup.f2="add">
+<!--               @keyup.enter  按键修饰符,点下按键实现功能 -->
+            </label>
+            <input type="button" value="添加" class="btn btn-info" @click="add()">
+<!--            在Vue中,使用事件绑定机制为元素指定处理函数的时候,如果加了小括号,就可以给函数传参了-->
+<!--            点击添加按钮,组合id和name中的值,把这两个值组合成一个对象,把这个对象push到数组中去-->
+            <label>
+                搜索名称关键字:
+                <input type="text" class="form-control" v-model="keyWords" v-focus v-color="'green'">
+<!--            所有的指令在调用的时候格式都是`v-`,是一种约定.在这里要自定义一个v-focus指令,使它实现页面打开自动聚焦功能-->
+            </label>
+        </div>
+    </div>
+
+    <table class="table table-bordered table-hover table-striped">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Ctime</th>
+                <th>Operation</th>
+            </tr>
+        </thead>
+        <tbody>
+<!--        之前v-for中的数据,都是直接从data上的list中直接渲染出来的,
+    现在我们自定义了一个search方法,同时把所有的关键字,通过传参的形式传给了search方法,
+    在search方法内部,通过执行for循环,把所有符合搜索关键字的数据,保存到一个新的数组中,返回-->
+<!--好像有点理解了,为什么把list换成search(keyWords),这应该是一个套娃关系,search中的数据也都是从list里来的,
+    无值时给item返回什么,有值时给item返回什么-->
+            <tr v-for="item in search(keyWords)" :key="item.id">
+<!--                不写冒号的话后面的属性会被当做字符串-->
+                <td>{{item.id}}</td>
+                <td v-text="item.name"></td>
+                <td>{{item.ctime|dateFormat(' ')}}</td>
+<!--<td>{{item.ctime|dateFormat('yyyy-mm-dd hh-mm-ss')}}</td>  这里可以写空字符串,因为下面有形参模拟值-->
+                <td><a href="#" @click.prevent="del(item.id)">删除</a></td>
+<!--                首先给删除按钮绑定事件,加了小括号,就可以给函数传参了-->
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div id="app2">
+    <p v-col="'pink'" v-fontSize="50">这里有一句话吗?</p>
+<!--    v-col="'pink','990'" 好像可以多个-   为什么我的fontSize出不来????-->
+</div>
+
+<script>
+    //全局过滤器,进行时间的格式化
+    Vue.filter('dateFormat',function (dateStr,pattern) {   //如果dateFormat(' ')没有形参,那这里就要给pattern传参
+        let dt = new Date(dateStr)
+        //根据给定的时间字符串,得到特定的时间
+        let y = dt.getFullYear()
+        let m = dt.getMonth() + 1  //因为getMonth()是从零开始的
+        let d = dt.getDate()
+        //getDay()返回一星期中的某一天（0-6）  getDate()返回一个月中的某一天（1-31）
+        //定义年月日
+
+        // let hh = dt.getHours()
+        // let mm = dt.getMinutes()
+        // let ss = dt.getSeconds()
+        // return `${y}-${m}-${d}`  //y + '-' + m + '-' + d的简写式
+
+        //分开写复用性更高  pattern只在if这里有用
+        if (pattern.toLowerCase() === 'yyyy-mm-dd'){
+            return `${y}-${m}-${d}`
+        }else{
+            let hh = dt.getHours().toString().padStart(2,'0')
+            let mm = dt.getMinutes().toString().padStart(2,'0')
+            let ss = dt.getSeconds().toString().padStart(2,'0')
+            return `${y}-${m}-${d} ${hh}:${mm}:${ss}`
+        }
+    })
+
+
+    //自定义全局按键修饰符
+    Vue.config.keyCodes.f2 = 113
+
+
+    //自定义全局指令  参数1:指令名称 注意,在自定义的时候自定义的名称不需要加v-  ,调用的时候要加v-
+    //参数2:是一个对象,这个对象身上,有一些指令相关的钩子函数,这些函数可以在特定的阶段执行相关的操作.
+    Vue.directive('focus' ,{
+        bind:function (el){
+        },  //每当指令绑定到元素上的时候会立即执行这个函数,只执行一次
+        //注意!!在每个函数中,第一个参数永远都是el,表示被绑定了指令的那个元素,这个el参数,是一个原生的js对象(dom)
+        //在元素刚绑定指令时,还没有插入到dom中去,这时候调用focus方法没有用,因为一个元素只有插入dom之后才能获取焦点
+        inserted:function (el){
+            el.focus()  //focus是一个行为,只被解析放在内存中没有意义,得插入dom树,渲染到页面上
+        },  //表示元素插入到dom中的时候,会执行inserted
+        updated:function (el){
+
+        }  //当组建/VNode更新的时候会执行updated,可能触发多次
+    })
+
+    Vue.directive('color',{
+        bind:function (el,binding) {
+            // el.style.color = 'yellowGreen'
+            el.style.color = binding.value  //通过第二个参数binding拿到传递的值,注意!自定义指令的值必须带单引号
+        }  //为什么这个可以放到bind中?因为样式只要通过指令绑定给了元素,不管这个元素有没有插入到界面中去,这个元素必定有了一个内联样式
+        //将来元素肯定会显示到页面中,这时候,浏览器的渲染引擎必然会解析样式,应用给这个元素.
+    })
+
+
+
+    let vm = new Vue({
+        el:'#app',
+        data:{
+            id:'',
+            name:'',
+            keyWords:'',
+            list:[
+                {id:1, name:'奔驰', ctime : new Date()},
+                {id:2, name:'宝马', ctime : new Date()}   //同步渲染到表格中去
+            ]
+        },
+        methods:{
+            add(){   //1.获取id和name,直接从data上获取 2.组织出一个对象 3.把这个对象,调用数组的相关方法添加到当前data上的list中
+                let car = {id: this.id, name: this.name, ctime:new Date()}
+                this.list.push(car)
+            // push() 方法可向数组的末尾添加一个或多个元素，并返回新的长度。
+                this.id = this.name = ''  //添加过后输入框为空
+            },
+
+            del(id){  //点击删除时根据id删除整行数据
+//                 this.list.some((item,i) => {
+//                     if (item.id === id){
+//                         this.list.splice(i,1)
+// //在数组的some方法中,如果return true,就会立即终止这个数组的后续循环
+//                         return true;
+//                     }
+//                 })
+                this.list.findIndex(item => {  //这块有点看不懂啊这个写法  蜜汁
+                    if (item.id == id) {
+                        return true;   //这里有点错误,删除不了,另一个方法可以
+                    }
+                })
+            },
+
+            search(keyWords){  //根据关键字进行数据的搜索
+                // let newList = []
+                // this.list.forEach(item=>{  //forEach全部遍历
+                //     if (item.name.indexOf(keyWords) != -1){
+                //         //indexOf(keyWords) != -1  意思是name中包含keyWords时(用!= -1来判断)给这个数组中添加item
+                //         //空字符串也是子串!!!所以keyWords为空时,list中的对象都存在
+                //         //indexOf() 方法可返回某个指定的字符串值在字符串中首次出现的位置。如果没有找到匹配的字符串则返回 -1。
+                //         newList.push(item)
+                //     }
+                // })
+                // return newList
+                return this.list.filter( item => {
+                    // if (item.name.indexOf(keyWords) != -1)
+                    if (item.name.includes(keyWords)){
+                        //注意:在ES6中,为字符串提供了一个新方法,叫String.prototype.includes('要包含的字符串')
+                        //如果包含则返回true,不包含则返回false    jq中的方法叫做':contains()'选择器,选取包含指定字符串的元素
+                        return item   //不能直接return哦  要let一个接收变量名的话还不如直接return接收
+                    }
+                })
+            }
+        },
+
+    });
+
+    let vm2 = new Vue({
+        el:'#app2',
+        data:{
+            msg: '欢迎学习vue',
+        },
+        methods:{
+
+        },
+        directives:{   //定义私有指令
+            'col':{
+                bind:function (el,binding) {
+                    el.style.color = binding.value
+                    // el.style.fontWeight = binding.value  好像可以多个
+                }
+            },
+            'fontSize':function (el,binding){  //注意,这个简写式里,function等于直接把代码写到了bind和update中去
+                el.style.fontSize = parseInt(binding.value) + 'px'  //可用性更强,避免不知输入的是字符串还是数字
+            }
+        }
+    });
+</script>
+
+</body>
+</html>
+

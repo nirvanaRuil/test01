@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>表单验证</title>
+</head>
+<body>
+<script type="text/javascript">
+    window.onload=function ()
+    {
+
+        //用户名
+        let username = document.getElementById('username');
+        let usernameSpan = document.getElementById('usernameSpan');
+        username.onblur = function ()
+        {
+
+            let userText = username.value.trim();
+            // userText = userText.trim();
+            if (userText.length == 0)
+            {
+                usernameSpan.innerText = '用户名不能为空!';
+            }
+            else if (userText.length<6||userText.length>14)
+            {
+                usernameSpan.innerText = '用户名长度必须有6-14位!';
+            }else  {
+                const regExp = /^[A-Za-z0-9]+$/;
+                let isFit = regExp.test(userText);   //注意!!!!引用的必须是你要实现功能的对象!不能是username
+                if(!isFit)
+                {
+                    usernameSpan.innerText = '用户名格式不正确!';
+                }
+                else {
+                    usernameSpan.innerText ='';
+                }
+            }
+        }
+        //此种方法把错误类型划分的更细致
+        username.onfocus = function ()
+        {
+            if (usernameSpan.innerText != '')
+            {
+                username.value='';
+                usernameSpan.innerText = '';
+            }
+        }
+
+
+        //密码
+        let password = document.getElementById('password');
+        let passwordText ;//声明
+        let passwordSpan = document.getElementById('passwordSpan');
+        password.onblur = function ()
+        {
+            passwordText = password.value.trim();
+            //指定遥控器 因为后面做了.value.trim 要执行才有用,放到外面声明里这两个是不执行的
+            // 执行之后,外面的passwordText就有值了,确认密码就可以调用了
+            if (passwordText.length == 0){
+                passwordSpan.innerText = '密码不能为空!';
+            }
+            else if (passwordConfirmText.length!==0 && passwordText!==passwordConfirmText)
+                //上一句判断自己不为空,这句条件是 确认密码栏不为空,且 不相等 才会进来.
+            {
+                passwordSpan.innerText ='密码输入不一致';
+            }
+            else
+            {
+                //两个密码的span都清空,否则会出现后改前一个,
+                // 对方span不会自动清空,因为没触发对方的onblur,所以在这里"帮助"给对方span做清空
+                //在确认密码种也是同样的修改,这样两个密码地位想同,不分先后均可兼容
+                passwordSpan.innerText ='';
+                passwordConfirmSpan.innerText ='';
+            }
+        }
+        password.onfocus = function ()
+        {
+            if (passwordSpan.innerText != '')
+            {
+                password.value='';
+                passwordSpan.innerText = '';
+            }
+        }
+
+        //确认密码
+        let passwordConfirm = document.getElementById('passwordConfirm');
+        let passwordConfirmSpan = document.getElementById('passwordConfirmSpan');
+        let passwordConfirmText;
+        passwordConfirm.onblur=function ()
+        {
+            passwordConfirmText = passwordConfirm.value.trim();
+            if (passwordConfirmText.length == 0)
+            {
+                passwordConfirmSpan.innerText = '确认密码不能为空!';
+            }
+            else if (passwordText.length !==0 && passwordConfirmText!==passwordText)
+            {
+                passwordConfirmSpan.innerText='密码不一致!';
+            }
+            else {
+                passwordConfirmSpan.innerText ='';
+                passwordSpan.innerText = '';
+            }
+        }
+        passwordConfirm.onfocus = function ()
+        {
+            if (passwordConfirmSpan.innerText != '')
+            {
+                passwordConfirm.value='';
+                passwordConfirmSpan.innerText = '';
+            }
+        }
+
+        //邮箱
+        const email=document.getElementById('email');
+        const emailSpan = document.getElementById("emailSpan");
+        email.onblur=function ()
+        {
+            let emailText = email.value.trim();
+            const regExp=/^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
+            let isFit=regExp.test(emailText);
+            if (emailText.length==0){
+                emailSpan.innerText='邮箱不能为空!';
+            }else if (!isFit)
+            {
+                emailSpan.innerText='邮箱格式不正确!';
+            }else {
+                emailSpan.innerText='';
+            }
+        }
+        email.onfocus=function () {
+            if (emailSpan.innerText!=''){
+                email.value='';
+                emailSpan.innerText='';
+            }
+        }
+
+        //给按钮绑定鼠标单击事件
+        let ton=document.getElementById('submitBtn');
+        ton.onclick = function()
+        {
+            let array = [username,password,passwordConfirm,email];
+            for(let i = 0; i < array.length ; i++){
+                array[i].focus();
+                array[i].focus();
+            }
+           /* for(const element in array){    快捷键itin
+                element.focus();
+                element.blur();
+            } */
+            // username.focus();
+            // username.blur();
+            // password.focus();
+            // password.blur();
+            // passwordConfirm.focus();
+            // passwordConfirm.blur();
+            // email.focus();
+            // email.blur();
+            if (usernameSpan.innerText=="" && passwordSpan.innerText=='' && passwordConfirmSpan.innerText==''
+                && emailSpan.innerText=='')
+            {
+                let userForm=document.getElementById('userForm');  //获取表单对象
+                userForm.submit();  //提交表单
+            }
+        }
+
+
+
+    }
+
+
+
+
+</script>
+<form name='userForm' id="userForm" action="http://localhost:8080/jd/save " method="get">
+    用户名:
+    <input type="text" id="username" name="username"/>
+    <span id="usernameSpan" style="color:red;font-size: 12px"></span><br>
+    密码:
+    <input type="password" id="password" name="password"/>
+    <span id="passwordSpan" style="color:red;font-size: 12px"></span><br>
+    确认密码:
+    <input type="password" id="passwordConfirm"/>
+    <span id="passwordConfirmSpan" style="color:red;font-size: 12px"></span><br>
+    邮箱:
+    <input type="email" id="email" name="email"/>
+    <span id="emailSpan" style="color:red;font-size: 12px"></span><br>
+
+    <input type="button" id="submitBtn"  value="提交信息">
+    <input type="reset"  value="重置">
+</form>
+</body>
+</html>

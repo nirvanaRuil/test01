@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>innerHTML和innerText操作div和span</title>
+    <style type="text/css">
+        #non{
+            background-color: darkcyan;
+            width: 300px;
+            height: 300px;
+            border: 2px yellowgreen solid;
+        }
+    </style>
+</head>
+<body>
+<script type="text/javascript">
+    window.onload=function(){
+        document.getElementById("ton").onclick=function(){
+            const nam = document.getElementById("non");
+            nam.innerHTML="<span style='color: brown;font-size: 20px '>用户名不能为空</span>";
+// nam.innerText="<font color='red'>用户名不能为空</font>"；  innerText原文输出    innerHTML可以检测代码   他俩是属性
+        }
+    }     //怎么给div里添加内容？ 第一步获取div对象，第二步使用innerHTML属性来设置元素内部的内容（就是div里的内容）
+</script>
+<div id="non"></div>
+<input type="button"  id="ton" value="设置div中的内容" />
+</body>
+</html>

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>按下按键改变颜色和设置透明度</title>
+    <script src="../../../js/jquery-3.5.1.min.js"></script>
+    <style>
+        .wrap{
+            margin: 200px auto;
+            width: 300px;
+            height: 400px;
+        }
+        #change{
+            width: 300px;
+            height: 250px;
+            border: #9acfea 2px solid;
+            text-align: left;
+            line-height: 250px;
+            font-size: 30px;
+        }
+
+        li {
+            height: 100px;
+            width: 100px;
+            background-color: palevioletred;
+        }
+    </style>
+</head>
+<body>
+<div class="wrap">
+    <h1>改变按键颜色</h1>
+    <div id="change">
+        keyCode为:
+        <span id="keyCodeSpan"></span>
+    </div>
+</div>
+<script>
+    $(function () {
+        let $change = $('#change');
+        let $showCode = $('#keyCodeSpan');
+        //给页面注册一个键盘按下事件
+        $(document).on('keydown',function (e) {   //?这个keydown要全小写
+            switch (e.keyCode) {
+                case 82:
+                    $change.css('backgroundColor','green');  //当按下82号键时,给#change一个背景色
+                    $showCode.text(82);  //当按下82号键时给span写入字符串82
+                    break;
+                case 71:
+                    $change.css('backgroundColor','blue');
+                    $showCode.text(71);
+                    break;
+                case 66:
+                    $change.css('backgroundColor','pink');
+                    $showCode.text(66);
+                    break;
+                case 89:
+                    $change.css('backgroundColor','gray');
+                    $showCode.text(89);
+                    break;
+                case 80:
+                    $change.css('backgroundColor','yellow');
+                    $showCode.text(80);
+                    break;
+                default:
+                        $change.css('backgroundColor','black');
+                        $showCode.text('查无此键');
+            }
+        });
+    });
+
+</script>
+</body>
+
+
+<body>
+    <ul id="opacity">
+        <li>这里是设置透明度现场</li>
+        <li>这里是设置透明度现场</li>
+        <li>这里是设置透明度现场</li>
+        <li>这里是设置透明度现场</li>
+        <li>这里是设置透明度现场</li>
+        <li>这里是设置透明度现场</li>
+        <li>这里是设置透明度现场</li>
+        <li>这里是设置透明度现场</li>
+    </ul>
+<script>
+    //需求:找到所有li标签,分别设置透明度,透明度逐个递增
+    //我们知道设置集合中元素的属性，那必须的迭代啊（就是遍历一下啊）.但是Jquery中不需要遍历可以直接设置。 为啥呢？ 这就是隐式迭代.
+    $(function () {
+        let $lis = $('#opacity').children();
+        $lis.each(function (index,element) {  //这里为什么提示错误???
+           $(element).css('opacity',(index+1)/8);  //设置透明度递增效果 index/8是因为有八个li标签,就是li标签索引/8表示透明度,很好玩
+        });  //如果直接索引/元素个数,第一个元素会是全透明
+    });
+    // each(function(index,element){});两个参数:index--表示当前元素再所有匹配元素中的索引号;element--表示当前元素(dom对象).
+</script>
+</body>
+</html>

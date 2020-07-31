@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>父组件向子组件传值</title>
+    <script src="../../../../Vue/vue.min.js"></script>
+</head>
+<body>
+
+<div id="app">
+    <com1 :style="[style1]"  v-bind:is-name="msg"></com1>
+<!--在引用子组件的时候可以通过属性绑定(v-bind:)的形式,把父组件需要传递给子组件的数据,传递到子组件内部,供子组件使用-->
+<!--传过来归传过来 要怎么用呢?-->
+    <com2 v-on:func="show"></com2>
+<!--父向子传方法,使用的是事件绑定机制:v-on,当我们自定义事件属性之后,那么子组件就能够通过某些方式来调用传递进去的这个方法了-->
+</div>
+
+<template id="tem1">
+    <div>
+        <h2>这是子组件</h2>
+        <input type="button" value="这是子组件中的按钮-点击触发父组件传过来的func方法" @click="my">
+    </div>
+</template>
+
+<script>
+    //定义了一个字面量类型的组件模板对象
+    let com2 = {
+        template: '#tem1', //通过指定了一个id,表示说要去加载这个指定的id的template元素中的内容当做组件的HTML结构.
+        methods: {
+            my (){  //当点击子组件按钮时,如何拿到父组件给的方法并调用?
+                // this.$emit('func',123,456)
+                this.$emit('func',this.sonmsg)  //emit原意为触发调用发射.
+                // 从第二个参数开始传参,传参时要相应的在方法中写上对应参数名
+            },
+        },
+        data(){
+            return{
+                sonmsg:{name:'小头', age:6}
+            }
+        }
+    }
+
+
+    let vm = new Vue({
+        el:'#app',
+        data:{
+//组件中的data数据,并不是通过父组件传递过来的,而是子组件本身私有的.比如:子组件通过ajax,请求回来的数据,都可以放在data身上
+            msg: '这是父组件中的数组嗷',
+            style1:{color:'blue'},
+            dataFormSon:null  //从子组件传参拿到的数据可以存到自己的data中并加以调用
+        },
+        methods:{
+            // show(zhi,zhi2){    //可以直接写参数,也可以把data搬进来,直接写的参数和data还不能搁一块儿写
+            //     console.log('怎么把方法传递给子组件---'+ zhi + zhi2)
+            // }
+            show(data){  //因为传了参,在这写对应参数名
+                this.dataFormSon = data
+            }
+        },
+        components:{  //这个components相对于vm而言就是子组件,vm本身也可以算作一个组件
+            com1:{  //默认情况下子组件无法访问父组件上的数据和方法
+                props:['isName'],  //组件中所有props的数据都是通过父组件传递给子组件的,而且只读,无法重新赋值
+//当把值传过来之后要怎么用呢?
+//首先要把父组件传递过来的属性(也就是传递名称),在`props:[ ]`数组中定义一下,然后再把要引用的父组件的值插值表达式到子组件中去.
+                template:'<h1>这是子组件----{{ isName }}</h1>',
+            },
+            com2//在外面定义过了   父组件给子组件怎么传方法
+        },
+
+
+    });
+</script>
+
+</body>
+</html>

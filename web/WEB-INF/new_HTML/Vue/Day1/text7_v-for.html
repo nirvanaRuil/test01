@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>循环数组/对象数组,循环对象</title>
+    <script src="../../../../Vue/vue.min.js"></script>
+</head>
+<body>
+
+<div id="app">
+    <p v-for="(item,i) in list">索引值{{i}}:每一项{{item}}</p>
+<!--    普通for循环  v-for="名称 in 数组"   如果要找到索引,把item改成(item,i)-->
+    <p v-for="(users,u) in date">id:{{user.id}}--名称:{{users.name}}--索引:{{u}}</p>
+<!--    循环对象数组(数组里都是对象)-->
+    <p v-for="(val,key,v) in user">值:{{val}}--键:{{key}}--索引:{{v}}</p>
+<!--    键值对一般写法是value在前,key在后  也就是value:key-->
+<!--    注意:在遍历对象身上的键值对的时候,除了有value和key,在第三个位置还有索引-->
+    <p v-for="count in 10">这是第{{count}}次循环</p>
+<!--    迭代数字  注意如果使用v-for迭代数字的话,前面的count值从1 开始-->
+
+<!--    key属性注意事项-->
+    <div>
+        <label>Id:
+            <input type="text" v-model="id">
+        </label>
+        <label>Name:
+            <input type="text" v-model="name">
+        </label>
+        <input type="button" value="添加" @click="add">
+    </div>
+        <p v-for="use in date" :key="use">
+            <input type="checkbox" >{{use.id}}--{{use.name}}
+        </p>
+<!--    注意,v-for循环的时候,key属性只能使用number获取string
+        key在使用的时候必须使用v-bind属性绑定的形式指定key的值
+        key表示来指定当前循环项的一个唯一身份(索引和循环项唯一对应,不会变化)
+        在组件中,使用v-for循环的时候,或者在一些特殊情况中,如果v-for有问题,必须在使用v-for的同时,指定唯一的 字符串/数字 类型 ` :key` 值-->
+</div>
+
+<script>
+    let vm = new Vue({
+        el:'#app',
+        data:{
+           list:[1,2,3,4,5,6],   //循环数组
+           id:'',
+           name:'',
+           date:[   //循环数组对象
+                {id: 1, name: 'wa'},
+                {id: 2, name: 'ze'},
+                {id: 3, name: 'mu'},
+                {id: 4, name: 'li'}
+            ],
+            user:{   //循环对象
+                id:1,
+                name:'wa',
+                gender:'男'
+            }
+        },
+        methods:{
+            add(){
+                let num = {id:this.id, name:this.name}
+                this.date.unshift(num)
+                //push() 方法可向数组的末尾添加一个或多个元素，并返回新的长度。
+                // 注意： 新元素将添加在数组的末尾。注意： 此方法改变数组的长度。
+                // 提示： 在数组起始位置添加元素请使用 unshift() 方法。
+            }
+        }
+    });
+</script>
+
+</body>
+</html>

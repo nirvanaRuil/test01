@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>小球半场动画问题补充</title>
+    <script src="../../../../Vue/vue.min.js"></script>
+    <style>
+        .ball{
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background-color: #9acfea;
+        }
+    </style>
+</head>
+<body>
+
+<div id="app">
+    <input type="button" value="加入购物车" @click="flag = !flag">
+    <transition
+            @before-enter="beforeEnter"
+            @enter="enter"
+            @after-enter="afterEnter">
+        <!--  在transition中声明钩子,然后在methods中定义这几个函数-->
+        <div class="ball" v-if="flag"></div>
+    </transition>
+</div>
+
+<script>
+    let vm = new Vue({
+        el:'#app',
+        data:{
+            flag:false,
+        },
+        methods:{
+            beforeEnter(el) {
+                el.style.transform = 'translate(0,0)'
+            },
+            enter(el, done) {
+                el.offsetWidth
+                el.style.transform = 'translate(0,300px)'
+                el.style.transition = 'all 1s ease'  //过渡
+                done()  //对afterEnter的引用
+            },
+            afterEnter(el) {
+                this.flag = !this.flag  //这句话第一个功能是控制小球的显示隐藏,第二个功能就是直接跳过后半场动画,让flag标识符直接变为false,跳过后半场动画.
+                //当第二次再点击按钮的时候是从false变为true.
+                // el.style.opacity = 0.1  //为什么用opacity就不能实现一个完整的动画切换?
+                //Vue使用钩子函数把一个完整的动画切成了两部分:我们使用flag标识符来切换动画;刚开始给flag=false-->true-->false
+                //我们重新点击开始的时候是从后半场动画过渡的,而后半场动画没有过渡函数,所以就没有动画效果.
+            }
+        }
+    });
+</script>
+
+</body>
+</html>

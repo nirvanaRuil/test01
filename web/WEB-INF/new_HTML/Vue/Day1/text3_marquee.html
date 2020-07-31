@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>跑马灯效果实现</title>
+<!--    1.导入Vue包-->
+    <script src="../../../../Vue/vue.min.js"></script>
+</head>
+<body>
+<!--创建一个要控制的区域-->
+<div id="app">
+    <input type="button" value="Vue你再跑" @click="lang">
+    <input type="button" value="给我停" @click="stop">
+    <h4>{{msg}}</h4>
+</div>
+<script >
+//注意!!!!!在Vue实例中,如果想要获取data上的数据,或者想要调用methods中的方法,必须通过this.数据属性名 或 this.方法名 来进行访问,这里的this就代表我们new出来的实例
+    let vm = new Vue({  //vm会监听自己身上data中所有数据的改变,只要数据一发生变化,就会自动把最新的数据从data上同步到页面中去
+        //好处就是程序员只需要关心数据,而不需要考虑如何重新渲染dom页面,节省对dom操作
+        el:'#app',
+        data:{
+            msg:'Vue你别挣扎了,从了我吧',
+            intervalID:null  //在data上定义定时器id,此时每当开启定时器都会重新复制一下
+        },
+        methods:{
+            lang(){  //ES6中的写法,不用写function,会自动写入
+                if (this.intervalID != null) return;
+                //按钮多点几次事件会被叠加触发,越跑越快,所以要加if每次置空
+                this.intervalID =  setInterval( () => {  //放入定时器中,就能实现自动跑了  不要忘记给intervalID加this,获取数据
+                    //获取数据必须要用this,但是this外面又加了个方法,这是this没有指向,此时需要删除function,并且在()后加=>,使箭头内部的this永远和外部保持一致,=和>中间不能有空格
+                    let start = this.msg.substring(0,1)  //用substring截取字符串,0下标开始1下标结束,不包括1下标
+                    let end = this.msg.substring(1)  //只写一个数字时是直接从此下标截取到字符串结束
+                    this.msg = end + start  //重新拼接得到新的字符串,并赋值给this.msg
+                },400)
+            },
+            stop(){
+                clearInterval(this.intervalID)  //清除定时器
+                this.intervalID = null;   //每当定时器关闭时,如果不重新赋值为null,再次开启定时器时不会等值null,if判断不再成立,将永远不会开启新的定时器
+            }
+        }
+    })
+    //分析:1.给按钮绑定点击事件
+    //    2.给按钮的事件处理函数中写相关的业务逻辑代码:拿到msg的字符串,然后调用字符串的substring来进行字符串的截取操作,把第一个字符截取出来放到最后一个位置即可.
+    //    3.为了实现点击一下按钮自动截取的功能,需要把2步骤中的代码放到定时器中定时截取.
+
+</script>
+</body>
+</html>

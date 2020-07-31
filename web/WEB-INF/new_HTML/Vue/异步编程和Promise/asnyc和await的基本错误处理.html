@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>asnyc和await的基本错误处理</title>
+</head>
+<body>
+</body>
+<script src="ajax.js"></script>
+<script>
+    //之前写错误处理就直接catch,asnyc也有相似的用法特性
+    new Promise((resolve, reject) => {
+        throw new Error("fail");  //不用直接error的错误也能被catch捕捉到,之前讲过
+    }).catch(error=>{
+        console.log(error);
+    });
+
+    //async对错误的处理
+    async function hd(name) {
+        //console.log(a);
+        //throw new Error("fail"); //不管错误是自定的还是自己抛的错误,都能接到
+        return ajax(`http://localhost:8888/php/user.php?name=${name}`)  //在异步里也可以
+    }
+    hd('hou')
+        .then(user => {
+            console.log(user);
+        })
+        .catch(error => {
+            console.log(error + "Error");
+        })
+</script>
+</html>

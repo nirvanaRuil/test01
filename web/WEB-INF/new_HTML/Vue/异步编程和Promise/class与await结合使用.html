@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>class与await结合使用</title>
+</head>
+<body>
+
+</body>
+<script src="ajax.js"></script>
+<script>
+    class User {
+        constructor(name){
+            this.name = name;
+        }
+        then(resolve,reject){
+            let user = ajax(`http://localhost:8888/php/user.php?name=${name}`)
+            resolve(user)
+        }
+    }
+    async function get() {
+        let user = await new User("hou")
+        console.log(user);
+    }
+    get()
+    //如果一个类中包含then时,会包装成一个promise.
+
+
+    //封装
+    class User{
+       async get(name){  //如果想要加载完后,就要用到asnyc和await
+            let user = await ajax(`http://localhost:8888/php/user.php?name=${name}`);
+            user.name+='-hou';
+            return user ;
+        }  //不能先执行再加载,要先全部加载
+    }
+    new User().get('hou').then(user => {
+        console.log(user);
+    })
+</script>
+</html>

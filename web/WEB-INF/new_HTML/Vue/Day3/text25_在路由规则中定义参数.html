@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>路由规则中定义参数</title>
+    <script src="../../../../Vue/vue.min.js"></script>
+    <script src="../../../../Vue/vue-router-3.0.1.js"></script>
+</head>
+<body>
+
+<div id="app">
+<!--    如果在路由中使用查询字符串,给路由传递参数,不需要修改路由规则的path-->
+    <router-link to="/login?id=10&name=richard">登录</router-link>
+    <router-link to="/register/15/shelly">注册</router-link>
+
+    <router-view></router-view>
+</div>
+
+<script>
+
+    //传参方式一:用query,好处是不需要修改路由规则的path
+    let login = {
+        template:'<h1>登录? --- {{ $route.query.id }}---{{ $route.query.name }}</h1>',  //这里this 可以省略
+        created(){  //组件的生命周期钩子函数
+            // console.log(this.$route)
+            console.log(this.$route.query.id)
+        }
+    }
+
+    //传参方式二:用params,在path中放入属性名,在router-link中直接加入属性值
+    let register = {
+        template:'<h1>注册?---{{ $route.params.id }}---{{ $route.params.name }}</h1>',
+        created(){  //组件的生命周期钩子函数
+            // console.log(this.$route)
+            console.log(this.$route.params.id)
+        }
+    }
+
+let router = new VueRouter({
+    routes: [
+        {path:'/login',component:login} ,
+        {path:'/register/:id/:name',component:register}  //传参方式二
+    ]
+})
+
+
+    let vm = new Vue({
+        el:'#app',
+        data:{
+            msg: '欢迎学习vue',
+        },
+        methods:{
+
+        },
+        router  //因为属性名和属性值相同,所以只需要写一个,会自动解析
+    });
+</script>
+
+</body>
+</html>

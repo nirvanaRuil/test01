@@ -1,0 +1,337 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+body{
+    font-size: 18px;
+    font-family: 宋体;
+    margin:0 auto;
+    background-color: lightgrey;
+
+}
+a{
+    color: #666;
+    text-decoration: none ;
+}
+#green {
+    background-color: darkgreen;
+    height: 5px;
+    width: 100%;
+}
+#immobility{
+    /*position: fixed;*/
+    left: 0;
+    top: 5px;
+    background-color:#2D2D2D ;
+    height: 30px;
+    width: 100%;
+    line-height: 30px;
+}
+#black{
+    position: relative;
+    color: wheat;
+}
+#black a{
+    color: wheat;
+}
+#black span{
+    color: darkgreen;
+    padding: 10px;
+}
+.black1 {
+    position: absolute;
+    left: 150px;
+}
+.black2{
+    position: absolute;
+    right: 200px;
+}
+#navigation{
+    width: 100%;
+    height: 70px;
+    float: left;
+    text-align: center;
+    background-color: #EEEEEE;
+    position: relative;
+    /*!*margin-top: 35px;   !* 因为页眉添加了fixed之后会脱离文档流,位置不存在,所以在此设置一个margin-top避开页眉*!*/
+    /* 不过如果是不适用的情况下估计就要加js啦*!*/
+}
+#navigation img{
+    display: block;
+    max-width: 100%; /*实现图片的自动缩放*/
+    position: absolute;
+    left: 25%;
+    top: -10px;
+}
+/*@media screen and (max-width: 700px){*/
+/*    #navigation img{*/
+/*        width: 20%;*/
+/*    }*/
+/*    .spaceBetween{*/
+/*        width: 11%;*/
+/*    }*/
+/*}*/
+.icon{
+    display: block;
+    position: absolute;
+    right: 15%;
+    line-height: 70px;
+}
+.spaceBetween{
+    margin: 0 15px;
+}
+
+/*轮播*/
+
+#width{
+    width:900px;
+    margin:70px auto;
+/*因为添加了fixed之后会脱离文档流,位置不存在,所以在此设置一个margin-top避开页眉*/
+}
+#i-c-title{
+    height: 100px;
+    width: 100%;
+    float: left;
+    text-align: center;
+}
+#buyNow{
+    height: 460px;
+    width: 100%;
+    float: left;
+    text-align: center;
+    transition: all 2s;
+}
+.buyFour{
+    float: left;
+    margin: 12px;
+    border-bottom: darkgrey 2px solid;
+}
+.buyFour:hover{
+    border-bottom: darkgreen 3px solid;
+    transform: translate(0,-2px) ;
+}
+/*.phone:hover{*/
+/*    border-bottom: darkgreen 3px solid;*/
+/*    transform: scale(1.03,1.03);*/
+/*}*/
+.greyWords{
+    color: #666666;
+}
+.greenWords{
+    color: darkgreen;
+}
+#parts{
+    float: left;
+    width: 100%;
+    height: 770px;
+    text-align: center;
+}
+#parts1,#parts2{
+    height: 100%;
+    width: 50%;
+    float: left;
+/*  以后请记得写float好吗谢谢
+    无数次修车都是因为没写float然后不知道错在哪=_=*/
+}
+#disTab{
+    display: block;
+    height: 22%;
+    width: 45%;
+    background-color: white;
+    float: left;
+    margin: 10px 5px;
+}
+.partsLeft img,.partsRight img{
+    float: left;
+    margin: 10px 5px;
+}
+/*.partsRight img{*/
+/*    float: left;*/
+/*    margin: 10px 5px;*/
+/*}*/
+#disTab,.partsLeft img,.partsRight img{
+    border-bottom: gray 2px solid;
+    -webkit-box-shadow:  0px 3px 5px gray ;
+    -moz-box-shadow: 0px 3px 5px gray  ;
+    box-shadow:  0px 3px 5px gray  ;
+}
+/*#disTab:hover{*/
+/*    transform: scale(1.05,1.05);*/
+/*}*/
+#disTab:active{
+    transform: scale(0.98,0.98);
+}
+.partsLeft img:hover,.partsRight img:hover{
+    transform: scale(1.05,1.05);
+}
+/*.partsRight img:hover{*/
+/*    transform: scale(1.05,1.05);*/
+/*}*/
+#news{
+    float: left;
+    height: 500px;
+    width: 100%;
+    text-align: center;
+    /*background-color: #62c2a2;*/
+}
+.money1{
+    float: left;
+    height: 100%;
+    width:68%;
+}
+.money2{
+    float: left;
+    height:410px;
+    width: 30%;
+    background-color: white;
+    text-align: center;
+    font-size: 12px;
+    margin-top: 10px;
+}
+.moneyLeft img{
+    float: left;
+    height: 45%;
+    width: 45%;
+    margin: 10px;
+}
+.moneyLeft img:hover{
+    border-bottom: 2px darkgreen solid ;
+    transform: translate(0,-2px) ;
+}
+/*不知道为啥加了这个后,点了第一个图标,它下面的那个就移位了,但是这组的设定都是集体设定的,不知道问题出在哪里*/
+.cut{
+    display: none;
+}
+.selected{
+    display: block;
+}
+
+.moneyRight{
+    float: left;
+    /*clear: both; 不清楚需要不 */
+    margin: 10px auto;
+    width:94% ;
+    /*height: 17%;   不需要!*/
+    text-align: center;
+    background-color: lightgrey;
+}
+#moneyOne{
+    /*float: left;*/
+    /*clear: both;*/
+    width:100% ;
+    margin: auto;
+    background-color: gray;
+    height: 10%;
+    /*display: table;(父元素中)
+     和display:table-cell;(子元素中)
+    vertical-align: middle;(子元素中)属性共同设置百分比情况下文字垂直居中*/
+}
+#moneyOne1,#moneyOne2{
+    float: left;
+    width: 50%;
+    height: 100%;
+    /*padding: 13px 0px;*/
+    /*display:table-cell;*/
+    /*vertical-align: middle;*/
+    display:flex;
+    justify-content:center;
+    align-items:center;
+/*    这三行设置百分比情况下文字垂直居中的问题*/
+}
+/*#moneyOne1:hover,#moneyOne2:hover{*/
+/*    background-color: white;*/
+/*}*/
+.add{
+    border-top: #0f0f0f 2px solid;
+    background-color: white;
+}
+/*#moneyOne2:hover{*/
+/*    border-top: darkgreen solid 2px;*/
+/*    background-color: white;*/
+/*}*/
+/*这块儿设置的是新闻微博的样式*/
+.moneyRight img{
+    float: left;
+    width: 30%;
+}
+.write{
+    margin: 10px;
+    display: table;
+}
+.text{
+    float: right;
+    width: 65%;
+    font-size: 12px;
+    padding-top: 20px;
+    /*display:flex;*/
+    /*justify-content:center;*/
+    /*align-items:center;*/
+}
+.text a{
+    color: #000;
+}
+#safeguard{
+    float: left;
+    height: 60px;
+    width: 100%;
+    text-align: center;
+    background-color: white;
+}
+.sfPic{
+    float: left;
+    height: 50px;
+    width: 20%;
+    margin-top: 15px;
+}
+.sfPic img{
+    float: left;
+    height: 33px;
+    width: 33px;
+    margin-right: 10px;
+}
+.safe{
+    float: right;
+    font-size: 12px;
+    color: grey;
+}
+hr{
+    color: lightgrey;
+    float: left;
+    width: 100%;
+    height: 2px;
+    background-color: white;
+}
+#footer{
+    float: left;
+    width: 100%;
+    height: 115px;
+    background-color: white;
+}
+.footerContent ul>li{
+    float: left;
+    height: 100%;
+    width: 16%;
+    text-align: center;
+}
+li{
+    list-style: none;
+/*    去掉无序列表前面的标识符*/
+}
+.footerTitle{
+    font-weight: bold;
+}
+.kf{
+    color: darkgreen;
+    font-size: 18px;
+    font-weight: bold;
+}
+.dh{
+    font-size: 14px;
+    font-family: 宋体;
+    color: #666;
+}
+#top img{
+    position: fixed;
+    right: 30px;
+    bottom: 30px;
+}

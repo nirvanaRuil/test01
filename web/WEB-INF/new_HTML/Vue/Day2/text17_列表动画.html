@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>列表动画</title>
+    <script src="../../../../Vue/vue.min.js"></script>
+    <style>
+        li{
+            border: #2b542c 2px dashed;
+            margin: 1px;
+            padding: 5px;
+            font-size: 20px;
+        }
+        a{
+            text-decoration: none;
+            display: inline-block;
+            float: right;
+        }
+        li:hover{
+            background-color: olivedrab;
+            transition: all 0.4s ease;
+        }
+        .v-enter,
+        .v-leave-to{
+            opacity: 20%;
+            transform: translateY(50px);
+        }
+        .v-enter-active,
+        .v-leave-active{
+            transition: all 0.6s ease;
+        }
+        .v-move{
+            transition: all 0.6s ease;
+        }
+        .v-leave-active{
+            position: absolute;
+            width: 100%;
+        /*  absolute在没有设定之前默认最小宽度  */
+        }
+        /*v-move设置列表后续元素的效果,同时要设置离开的过程也就是.v-leave-active*/
+    </style>
+</head>
+<body>
+
+<div id="app">
+    <label>
+        Id:
+        <input type="text" v-model="id">
+    </label>
+    <label>
+        Name:
+        <input type="text" v-model="name">
+    </label>
+    <input type="button" value="添加" @click="add">
+
+    <ul>
+<!-- 在实现列表过渡的时候,如果需要过渡的元素,是通过v-for渲染出来的,不能使用transition包裹,要使用
+transition-group包裹
+如果要为v-for循环创建的元素设置动画,必须为每一个元素设置:key属性-->
+        <transition-group appear tag="ul">
+             <li v-for="(item,i) in list" :key="item.id" @click="del(i)">
+            {{item.id}}---{{item.name}}
+             </li>
+        </transition-group>
+<!--给transition-group添加appear属性,实现页面刚展示出来时的进入效果-->
+<!--transition默认渲染为span元素,用tag标签更改transition将要成为的元素类型-->
+    </ul>
+</div>
+
+<script>
+    let vm = new Vue({
+        el:'#app',
+        data:{
+            id:'',
+            name:'',
+            list :[
+                {id:1 , name: '斑马'},
+                {id:2 , name: '犀牛'},
+                {id:3 , name: '大熊猫'},
+                {id:4 , name: '剑齿虎'}
+            ]
+        },
+        methods:{
+            add(){
+                this.list.push({ id:this.id , name:this.name })
+                this.id = this.name = ''  //添加过后输入框为空
+            },
+            del(i){
+                this.list.splice(i,1)
+                }
+        }
+    });
+</script>
+
+</body>
+</html>

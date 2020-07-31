@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>命名视图</title>
+    <script src="../../../../Vue/vue.min.js"></script>
+    <script src="../../../../Vue/vue-router-3.0.1.js"></script>
+    <style>
+        .header{
+            background-color: #2b542c;
+            height: 100px;
+            text-align: center;
+            line-height: 100px;
+        }
+        .contain{
+            float: left;
+            height: 600px;
+            width: 100%;
+            background-color: #9acfea;
+        }
+        .left{
+            float: left;
+            background-color: #b2dba1;
+            width: 48%;
+            margin:0 ;
+            height: 600px;
+            text-align: center
+        }
+        .main{
+            float: right;
+            width: 50%;
+            height: 600px;
+            margin: 0;
+            background-color: #a6e1ec;
+            text-align: center
+        }
+    </style>
+</head>
+<body>
+<!--命名实现多视图,同时展示多组件-->
+<div id="app">
+    <router-view  name="default"></router-view>
+<!--    没有任何指定的是default,如果非要写name就写default-->
+    <div class="contain">
+        <router-view name="left"></router-view>
+        <router-view name="main"></router-view>
+<!--        这种就叫命名视图,页面上的router-view都可以起名字,可以放置对应名称的组件-->
+<!--        视图的名称只是一个值,字符串 . 只有加:后才会考虑是否是变量-->
+    </div>
+</div>
+
+<script>
+    let header = {
+        template:'<h1 class="header">header头部区域</h1>'
+    }
+    let leftBox = {
+        template:'<h1 class="left">leftBox左边区域</h1>'
+    }
+    let mainBox = {
+        template:'<h1 class="main">mainBox右边区域</h1>'
+    }
+
+    let router = new VueRouter({
+        routes:[
+            // {path:'/',component:header },
+            // {path:'/left',component:leftBox },
+            // {path:'/main',component:mainBox },  //这样写会出现三个位置都是头部的情况
+            {path:'/',components:{
+                'default':header,   //默认状态
+                    'left':leftBox,
+                    'main':mainBox
+                }}  //同时展示多组件
+        ]
+    })
+
+
+    let vm = new Vue({
+        el:'#app',
+        data:{
+            msg: '欢迎学习vue',
+        },
+        methods:{
+
+        },
+        router
+    });
+</script>
+
+</body>
+</html>

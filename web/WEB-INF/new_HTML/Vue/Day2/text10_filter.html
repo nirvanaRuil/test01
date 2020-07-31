@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue中的过滤器</title>
+    <script src="../../../../Vue/vue.min.js"></script>
+</head>
+<body>
+
+<div id="app">
+    <p>{{msg|msgFormat('曾经','啊')|ming}}</p>
+<!--    也可以调用多个过滤器(将数据交给第一个过滤器处理,然后由第一个交给第二个,直到最后一个过滤器处理完).-->
+</div>
+
+<div id="pp">
+    <h3>{{dt|dateFormat}}</h3>
+</div>
+
+<script>
+
+    Vue.filter('msgFormat',function (msg,amz,am) {
+        //字符串的replace方法,第一个参数除了可以写一个字符串外,还可以定义一个正则
+        //过滤器中也可以传参,可以传多个参数
+       return msg.replace(/现在/g,amz+am)
+    })
+
+    Vue.filter('ming',function (msg) {
+        return msg + '===这是字符串'
+    })
+
+    Vue.filter('dateFormat',function (dateStr) {
+        let dt = new Date(dateStr)
+        //根据给定的时间字符串,得到特定的时间
+        let y = dt.getFullYear()
+        let m = dt.getMonth() + 1  //因为getMonth()是从零开始的
+        let d = dt.getDate()
+        //getDay()返回一星期中的某一天（0-6）  getDate()返回一个月中的某一天（1-31）
+        //定义年月日
+        return `${y}-${m}-${d}`
+    })
+
+
+    let vm = new Vue({
+        el:'#app',
+        data:{
+            msg: '我逆流而上,最远的旅行,现在的我看着现在,只想让现在更好,不负时光',
+        },
+        methods:{
+
+        }
+    })
+
+    let vm2 = new Vue({
+        el:'#pp',
+        data:{
+            dt:new Date(),
+        },
+        methods:{
+
+        },
+        filters:{    //filters属性,定义私有过滤器,过滤器有两个条件 [过滤器名称 和 处理函数]
+            //如果全局过滤器和私有过滤器的名称相同,怎么区分用的哪个?
+            // 答:过滤器调用的时候采用的是就近原则,如果私有过滤器和全局过滤器名称一致,优先调用私有过滤器
+            dateFormat:function (dateStr) {
+                let dt = new Date(dateStr)
+                //根据给定的时间字符串,得到特定的时间
+                let y = dt.getFullYear()
+                let m = (dt.getMonth() + 1).toString().padStart(2,'0')  //因为getMonth()是从零开始的
+                let d = dt.getDate().toString().padStart(2,'0')
+                //getDay()返回一星期中的某一天（0-6）  getDate()返回一个月中的某一天（1-31）
+                //定义年月日
+                return `${y}-${m}-${d}`
+            }
+        }
+    })
+</script>
+
+</body>
+</html>
+<!--过滤器调用时的格式:
+    {{name|过滤器的名称}}
+    怎么调用?
+    Vue.filter('过滤器的名称',function(){})
+    过滤器中的function,第一个参数已经被规定死了,永远都是过滤器 管道符前面 传来的数据.
+    过滤器中也可以传参!!!!
+    -->

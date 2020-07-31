@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Title</title>
+    <script src="../../../../Vue/vue.min.js"></script>
+</head>
+<body>
+
+<div id="app">
+    <h3 ref="ele">今天的风儿好喧嚣</h3>
+    <input type="button" value="获取元素" @click="getElement" >
+    <hr>
+    <login ref="mylogin"></login>
+</div>
+
+<script>
+
+    let login = {
+        template:'<h1>登录组件</h1>',
+        data(){
+            return{
+                msg:'somsg'
+            }
+        },
+        methods: {
+            show(){
+                this.msg
+            }
+        }
+    }
+
+    let vm = new Vue({
+        el:'#app',
+        data:{
+            msg: '欢迎学习vue',
+        },
+        methods:{
+            getElement(){
+                console.log(this.$refs.mylogin.show)  //ref是单词reference,意为引用
+                //可以获取组件数据,和方法.引用元素
+                console.log(this.$refs.ele)
+            },
+        },
+        components:{
+            login
+        }
+    });
+</script>
+
+</body>
+</html>

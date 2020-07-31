@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>阿里百秀首页案例</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!--简写式meta:vp-->
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+<!--这是个是IE8的专用标记,用来指定IE8浏览器去模拟某个特定版本的IE浏览器的渲染方式（比如人见人烦的IE6），以此来解决部分兼容问题，例如模拟IE7的具体方式如下：
+    < meta http-equiv = "X-UA-Compatible" content = "IE=EmulateIE7"/> -->
+    <link rel="stylesheet" href="../../../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../CSS1/bootstrap_example.css">
+    <script src="../../../js/jQuery.js"></script>
+    <script src="../../../js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <!--当大屏和中屏布局一样时,就可以都设置成col-md
+            bootstrap里container宽度最大为1170px,请根据实际情况进行最大宽度调整-->
+        <header class="col-md-2">
+<!--把div换成更为确切的表示方法,应该就是所说的web语义化-->
+            <div class="row logo">
+                <a href="#">
+                    <img src="../picture/mofang/缘结神.png" height="222" width="300" class="hidden-xs"/>
+                    <p class="visible-xs">只在超小屏幕下显示</p>
+                </a>
+            </div>
+            <div class="row nav">
+                <ul>
+                    <li><a href="#" class="glyphicon glyphicon-facetime-video">zheshiyigelianjie1</a></li>
+<!--                    加一个class,使用字体图标-->
+                    <li><a href="#">zheshiyigelianjie2</a></li>
+                    <li><a href="#">zheshiyigelianjie3</a></li>
+                    <li><a href="#">zheshiyigelianjie4</a></li>
+                    <li><a href="#">zheshiyigelianjie5</a></li>
+                </ul>
+            </div>
+        </header>
+        <article class="col-md-7">
+            <div class="row news clearfix">
+                <ul>
+                    <li>1 <a href="#">这里是</a></li>
+                    <li>2 <a href="#"><p>一行</p></a>
+                    <li>3 <a href="#"><p>文</p></a></li>
+                    <li>4 <a href="#"><p>字</p></a></li>
+                    <li>5 <a href="#"><p>哦</p></a></li>
+                </ul>
+            </div>
+            <div class="publish">
+                <div class="row">
+                    <div class="col-sm-9"><a href="#">11111</a></div>
+                    <div class="col-sm-3 hidden-xs"><a href="#">22222</a></div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-9"><a href="#">11111</a></div>
+                    <div class="col-sm-3 hidden-xs"><a href="#">22222</a></div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-9"><a href="#">11111</a></div>
+                    <div class="col-sm-3 hidden-xs"><a href="#">22222</a></div>
+                </div>
+            </div>
+        </article>
+        <aside class="col-md-3"><!--右侧模块-->
+            <a href="#"><img src="../picture/mofang/a4.png" height="566" width="512"/></a>
+            <a href="#"><img src="../picture/mofang/a2.png" height="392" width="552"/></a>
+        </aside>
+    </div>
+</div>
+</body>
+</html>
