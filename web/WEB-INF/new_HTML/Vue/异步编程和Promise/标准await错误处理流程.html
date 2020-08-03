@@ -6,5 +6,23 @@
 </head>
 <body>
 </body>
+<script src="ajax.js"></script>
+<script>
+    async function hd(name) {
+        try {    //try catch  在内部进行错误处理  可以放入多个错误
+            let user = await ajax(`http://localhost:8888/php/user.php?name=${name}`)
+            return user;
+        } catch(error) {
+            console.log(error.message);  //执行处理错误
+            }
+        console.log(333);  //执行完上一个错误后才能继续
+    }
 
+
+    hd('hou').then(lesson => {  //这是ajax外部
+
+    }).catch(error => {
+
+    })  //建议
+</script>
 </html>

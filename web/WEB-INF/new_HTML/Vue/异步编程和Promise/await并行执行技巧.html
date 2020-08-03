@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>await并行执行技巧</title>
+</head>
+<body>
+</body>
+<script src="ajax.js"></script>
+<script>
+    async function hd() {  //await需要等待执行
+        let h1 = await p1()
+        let h2 = await p2()  //现在是p1完了之后再执行p2
+    }
+    hd();  //调用
+
+    async function hd() {
+        let res = await Promise.all([p1,p2])
+        console.log(res)  //这是后就会同时接到p1,p2
+    }
+    //p1,p2没有任何关系,但是我们还要用await,又不想顺序执行,这时就用到并行开发,就是用all
+</script>
+</html>

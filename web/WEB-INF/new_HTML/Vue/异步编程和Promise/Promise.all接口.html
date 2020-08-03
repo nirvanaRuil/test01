@@ -24,6 +24,7 @@
             resolve("第二个异步");
         },1000);
     });
+
     Promise.all([one,two])
         .then(result => {
             console.log(result);
